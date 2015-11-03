@@ -12,7 +12,7 @@
 		The user was successfully updated with the following info:
 		<ul>
 		@foreach ($data['arr_user_info'] as $key => $val)
-			<li>{!!$key!!}<br><br>{!!$val!!}</li>
+			<li>{!!$key!!}&nbsp;&nbsp;{!!$val!!}</li>
 		@endforeach
 		</ul>
     </div>

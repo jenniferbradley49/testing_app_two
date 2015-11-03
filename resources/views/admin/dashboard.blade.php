@@ -28,7 +28,7 @@
    <a href="/admin/add_user_admin">Add user</a>         
     </div>
 <div class="col-sm-5"> 
-   <a href='/admin/get_edit_user_admin'>Edit user - admin</a>
+   <a href='/admin/edit_user_admin'>Edit user - admin</a>
 </div>
     
 <div class="col-sm-1"> </div>

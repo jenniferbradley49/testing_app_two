@@ -2,7 +2,7 @@
 
 @extends('layouts.master_welcome')
 
-@section('title', 'Page Title')
+@section('title', 'index page')
 @section('page_specific_jquery')
 
 @endsection
@@ -14,7 +14,8 @@
 @endsection
 
 @section('content')
-    <p>This is my body content. and a change</p>
-     <p><a href="/auth/login">Log in</a></p>
+<br><br>
+     <p><a href="/admin/home">Admin log in</a></p>
+     <br><br>
      <p><a href="/password/email">Forgot password</a></p>
      @endsection

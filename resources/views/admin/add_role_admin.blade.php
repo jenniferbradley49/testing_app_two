@@ -6,16 +6,16 @@
 <script>
 $(document).ready(function(){
 
-	arrange_password_inputs();
-	arrange_email_input();
+//	arrange_password_inputs();
+//	arrange_email_input();
 
-	$("#include_password").change(function(){
-		arrange_password_inputs();
-	});
+//	$("#include_password").change(function(){
+//		arrange_password_inputs();
+//	});
 
-	$("#include_email").change(function(){
-		arrange_email_input();
-	});
+//	$("#include_email").change(function(){
+//		arrange_email_input();
+//	});
 	
 
 	$("#order_by_email").click(function(){
@@ -33,7 +33,7 @@ $(document).ready(function(){
 
 		propagate_csrf_code();
         jQuery.ajax({
-            url: "/ajax/get_user_info_admin",
+            url: "/ajax/get_role_info_admin",
             type: "POST",
             data: {   
                 "user_id":user_id,

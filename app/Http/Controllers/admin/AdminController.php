@@ -39,13 +39,13 @@ class AdminController extends Controller
     
     public function post_add_user_admin(Request $request)
     {
-    	 
-    	$this->validate($request, [
+    	$validation_rules = [
     			'first_name' => 'required|max:50',
     			'last_name' => 'required|max:50',
     			'email' => 'required|email|max:50|unique:users',
     			'password' => 'required|confirmed|max:50|min:6'
-    			]);
+    			]; 
+    	$this->validate($request, $validation_rules);
     	 
     	$arr_user_info = array(
     			'first_name'     => $request->first_name,
@@ -102,65 +102,53 @@ class AdminController extends Controller
         {
     		$bool_include_email = 0;
     	}
-    	//    	echo "test 2<br>";
-//    	print_r($request->all());
-    	 
-    
-    	$this->validate($request, [
-    			'user_id' => 'required|integer|min:0',
+    	
+    	$validation_rules = [
+    			'user_id' => 'required|integer|min:1',
     			'first_name' => 'required|max:50',
     			'last_name' => 'required|max:50',
-//    			'email' => 'required|email|max:50|unique:users',
-//    			'include_password' => 'required|integer|min:0|max:1',
-    			//    			'password' => 'required|confirmed|max:50|min:6'
-    			]);
+    			];
+    	$validation_messages = [
+    	'user_id.min' => 'Please choose a user in the drop down box.  The current choice of &quot;Please choose a user&quot; is not acceptable.',
+    	];
+    	 
+    	$this->validate($request, $validation_rules, $validation_messages);
 
 		if ($bool_include_email)
 		{
-    		$this->validate($request, [
+			$validation_rules = [
        			'email' => 'required|email|max:50|unique:users',
-    			]);
+    			];
+    		$this->validate($request, $validation_rules);
 		}
 
 		if ($bool_include_password)
 		{
-			$this->validate($request, [
-//	   			'include_password' => 'required|integer|min:0|max:1',
+			$validation_rules = [
     			'password' => 'required|confirmed|max:50|min:6'
-			]);
+			];
+			$this->validate($request, $validation_rules);
 		}
-		
-		
-    	$arr_user_info = array(
- //   			'id'     => $request->user_id,
-    			'first_name'     => $request->first_name,
-    			'last_name' => $request->last_name,
-//    			'email'    => $request->email,
-//    			'password' => \Hash::make($request->password)
-    	);
-    
-//    	$user = new User;
- //   	foreach ($arr_user_info as $key =>$val)
-//    	{
- //   		$user->$key = $val;
- //   	}
- 
+
     	$user = User::find($request->user_id);
     	$user->first_name = $request->first_name;
     	$user->last_name = $request->last_name;
+    	$arr_user_info = array();
+    	$arr_user_info['first_name'] = $request->first_name;
+    	$arr_user_info['last_name'] = $request->last_name;
     	if ($bool_include_email)
     	{
     		$user->email = $request->email;
+    		$arr_user_info['email'] = $request->email;
     	}
     	if ($bool_include_password)
     	{
     		$user->password = $request->password;
+    		$arr_user_info['password'] = $request->password;
     	}
     	 
     	$user->save();
     	$user_id = $user->id;
-    	// return to raw password for view
-//    	$arr_user_info['password'] = $request->password;
     
     	$data = array('arr_user_info' => $arr_user_info,
     			'user_id' => $request->user_id
@@ -172,7 +160,11 @@ class AdminController extends Controller
     
     public function get_add_role_admin()
     {
-        
+    	$user = new User;
+    	$arr_users_raw = $user->get_all_users_admin(1);  // 1 specifies order by last name
+    	$arr_users_processed = $user->process_users($arr_users_raw);
+    	$data = array('arr_users' => $arr_users_processed);
+    	return view('admin/add_role_admin')->with('data', $data);	 
     }
 
     /**

@@ -11,10 +11,21 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>        @yield('page_specific_jquery')
     </head>
     <body>
- 
-            
-
         <div class="container-fluid">
+         
+<div class="row">
+<div class="col-sm-1"> <br><br><br></div>
+<div class="col-sm-5"> 
+           
+    </div>
+<div class="col-sm-5"> <div class="text-right"><br> 
+   <a href='/'>Return to site start</a>
+	</div>
+</div>
+    
+<div class="col-sm-1"> </div>
+</div><!-- end row -->
+ 
             @yield('content')
         </div>
     </body>

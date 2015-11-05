@@ -18,11 +18,18 @@
  
 <div class="row">
 <div class="col-sm-1"> <br><br><br></div>
-<div class="col-sm-5"> 
-           
+<div class="col-sm-6"> 
+         <br>  
     </div>
-<div class="col-sm-5"> <div class="text-right"><br> 
-   <a href='/admin/home'>Return to admin dashboard</a>
+<div class="col-sm-2">
+<div class="text-right"> 
+   <a href='/'>Return to site start</a>
+	</div>
+</div>	
+ 
+<div class="col-sm-2">
+
+ <div class="text-right"><a href='/admin/home'>Return to admin dashboard</a>
 	</div>
 </div>
     

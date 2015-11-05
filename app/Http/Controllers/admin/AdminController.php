@@ -9,6 +9,7 @@ use App\User;
 use App\Role;
 use App\Role_user;
 use Hash;
+use Redirect;
 use DB;
 
 class AdminController extends Controller
@@ -19,13 +20,13 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-	public function __construct()
+	public function __construct(Role_user $role_user)
 	{
 		$this->middleware('auth');
-		if(!(Role_user::hosRole('admin')))
+		if(!($role_user->hasRole('admin')))
 		{
 			Redirect::to('auth/login')
-			->withInput()
+			
 			->withErrors(array('message' => 'Your login does not have the appropriate privileges to view the intended page'));
 		}
 	}

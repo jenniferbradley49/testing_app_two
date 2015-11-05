@@ -31,6 +31,7 @@ class Role_user extends Model
     
     public function hasRole($role_to_check)
     {
+    	$user = new User;
     	return in_array($role_to_check, array_fetch($user->roles->toArray(), 'name'));
 	}
     

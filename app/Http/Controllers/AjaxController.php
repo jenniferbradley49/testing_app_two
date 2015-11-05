@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Role;
+use App \Role_user;
 
 class AjaxController extends Controller
 {
@@ -17,6 +19,7 @@ class AjaxController extends Controller
 	
 	public function __construct()
 	{
+		$this->middleware('auth');
 	}
 	
 	
@@ -73,7 +76,7 @@ class AjaxController extends Controller
     
     
 	
-    public function get_role_info_admin(Request $request, Role $role)
+    public function get_role_info_admin(Request $request, Role $role, Role_user $role_user)
     {
     	$validation_rules = [
     	'user_id' => 'required|integer|min:1'
@@ -83,11 +86,12 @@ class AjaxController extends Controller
     	 
     	$arr_all_roles = $role->all();
     	$arr_roles_possessed = $role_user->get_roles_possessed($request->user_id);
-		$arr_roles_available = $role_user->get_roles_available($request->user_id);
+    	$arr_roles_possessed = $role_user->process_roles_possessed_output($arr_roles_possessed);
+    	$arr_roles_available = $role_user->get_roles_available($request->user_id);
 		$data = array('arr_roles_possessed' => $arr_roles_possessed,
 				'arr_roles_available' => $arr_roles_available	
 			);
 		return response()->json($data);
     }
 
-    }
+}

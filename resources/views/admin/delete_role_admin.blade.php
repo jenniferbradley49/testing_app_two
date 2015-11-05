@@ -1,22 +1,10 @@
 @extends('layouts.master_admin')
 
-@section('title', 'Add user - admin')
+@section('title', 'Delete role - admin')
 @section('page_specific_jquery')
 
 <script>
 $(document).ready(function(){
-
-//	arrange_password_inputs();
-//	arrange_email_input();
-
-//	$("#include_password").change(function(){
-//		arrange_password_inputs();
-//	});
-
-//	$("#include_email").change(function(){
-//		arrange_email_input();
-//	});
-	
 
 	$("#order_by_email").click(function(){
 		resort_users(0);
@@ -43,18 +31,24 @@ $(document).ready(function(){
             },               
             success: function( data ) {
  // populate roles available
+//				$("#role_id").empty();
+//				$("#role_id").append(new Option("Please choose a role", "0"));
+//				$.each(data.arr_roles_available, function(index, item) {
+//					$("#role_id").append(new Option(item.name, item.id));
+//		        });
+// populate roles already possessed		        
 				$("#role_id").empty();
 				$("#role_id").append(new Option("Please choose a role", "0"));
-				$.each(data.arr_roles_available, function(index, item) {
+				$.each(data.arr_roles_possessed, function(index, item) {
 					$("#role_id").append(new Option(item.name, item.id));
 		        });
-// populate roles already possessed		        
-				$("#roles_possessed").empty();
-				$("#roles_possessed").append("<ul>");
-				$.each(data.arr_roles_possessed, function(index, item) {
-					$("#roles_possessed").append("<li>"+item.name+"</li>");					
-		        });
-				$("#roles_possessed").append("</ul>");
+				
+
+//				$("#roles_possessed").append("<ul>");
+//				$.each(data.arr_roles_possessed, function(index, item) {
+//					$("#roles_possessed").append("<li>"+item.name+"</li>");					
+//		        });
+//				$("#roles_possessed").append("</ul>");
 			},
             error: function( xhr, status, errorThrown ) {
                 console.log("Ajax error");
@@ -62,37 +56,6 @@ $(document).ready(function(){
         });  // end jquery ajax
     }); // end on dropdown change
 
-
-    function arrange_password_inputs()
-    {        
-    	if ($("#include_password").prop('checked'))
-    	{        	
-    		$("#password").prop('disabled', false);
-    		$("#password_confirmation").prop('disabled', false);
-    		$("#password_block").show(1500);
-    	}
-    	else
-    	{		
-    		$("#password").prop('disabled', true);
-    		$("#password_confirmation").prop('disabled', true);
-    		$("#password_block").hide(1500);
-		}		
-    }  // end function arrange password inputs       
-
-
-    function arrange_email_input()
-    {        
-    	if ($("#include_email").prop('checked'))
-    	{        	
-    		$("#email").prop('disabled', false);
-    		$("#email_block").show(1500);
-    	}
-    	else
-    	{		
-    		$("#email").prop('disabled', true);
-    		$("#email_block").hide(1500);
-		}		
-    }  // end function arrange email input       
     
 
     function resort_users(bool_order_by_lname)
@@ -142,7 +105,7 @@ $(document).ready(function(){
 <div class="row">
 <div class="col-sm-3"><br><br><br><br><br><br> </div>
 <div class="col-sm-6"> 
-Add role - admin
+Delete role - admin
     </div>
 <div class="col-sm-3"> </div>
 </div><!-- end row -->
@@ -193,22 +156,6 @@ Add role - admin
     
 <div class="col-sm-1"> </div>
 </div><!-- end row -->
-     
-      
-<div class="row">
-<div class="col-sm-1"> <br><br><br></div>
-<div class="col-sm-3"> 
-Roles already possessed for this user
-</div>
-<div class="col-sm-7"> 
-<div id="roles_possessed"></div>
-    </div>
-
-    
-<div class="col-sm-1"> </div>
-</div><!-- end row -->
-
-     
     
      
 <div class="row">
@@ -230,7 +177,7 @@ Roles already possessed for this user
 <div class="row">
 <div class="col-sm-3"> <br><br><br></div>
 <div class="col-sm-6"> 
-    {!! Form::submit('Add role for this user'); !!}          
+    {!! Form::submit('Delete role for this user'); !!}          
     </div>  
 <div class="col-sm-3"> </div>
 </div><!-- end row -->

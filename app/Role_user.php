@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\Role;
+use DB;
 
 class Role_user extends Model
 {
@@ -14,33 +15,89 @@ class Role_user extends Model
 	
 	protected $fillable = ['role_id', 'user_id'];
 	
-    public function add_role($user_id, $role_id, User $user)
+    public function add_role($user_id, $role_id)
     {
 //    	$user = new User;
     	$user = User::find($user_id);
     	$user->roles()->attach($role_id);
     }
     
-    public function remove_role($user_id, $role_id, User $user)
+    public function delete_role($user_id, $role_id)
     {
 //    	$user = new User;
     	$user = User::find($user_id);
     	$user->roles()->detach($role_id);
     }
     
-    public function get_roles_possessed($user_id, User $user)
+    public function hasRole($role_to_check)
     {
-    	$user = User::find($user_id);
-    	return $user->roles()->toArray();
- //   	return $this->where('user_id', $user_id)->get();
+    	return in_array($role_to_check, array_fetch($user->roles->toArray(), 'name'));
+	}
+    
+    
+    public function get_roles_possessed($user_id)
+    {
+    	$user = User::find($user_id);     	 
+    	$arr_roles_possessed = $user->roles->toArray();
+    	   
+    	return $arr_roles_possessed;
     }
 
-    public function get_roles_available($user_id, Role $role)
+
+    public function process_roles_possessed_output($arr_roles_possessed)
     {
-    	$arr_all_roles = $role->all()-toArray();
-    	$arr_roles_possessed = $this->get_roles_possessed();
-		// array_diff_key finds the roles not already possessed
-    	return array_diff_key($arr_all_roles, $arr_roles_possessed);  	
+    	if (empty($arr_roles_possessed))
+    	{
+    		$arr_roles_possessed[0]['id'] = 0;
+    		$arr_roles_possessed[0]['name'] = "no roles currently possessed";
+    	}
+    
+    	return $arr_roles_possessed;
+    }
+
+    public function process_roles_possessed_comparison($arr_roles_possessed)
+    {
+        $arr_roles_possessed_keys = array();
+    	if (empty($arr_roles_possessed))
+    	{
+    		$arr_roles_possessed_keys[] = 0;
+    	}
+    	else 
+    	{
+    		foreach ($arr_roles_possessed as $key => $role_possessed)
+    		{
+    			$arr_roles_possessed_keys[] = $role_possessed['id'];
+    		}
+    	}
+    	    
+    	return $arr_roles_possessed_keys;
     }
     
+    
+    public function get_roles_available($user_id)
+    {
+    	$arr_roles_possessed = $this->get_roles_possessed($user_id);
+    	$arr_roles_possessed_keys = $this->process_roles_possessed_comparison($arr_roles_possessed);
+//       	$user = User::find($user_id);
+     	 
+//    	$arr_roles_possessed = $user->roles->toArray();
+ /*   	 
+    	$arr_roles_possessed_keys = array();
+    	if (empty($arr_roles_possessed))
+    	{
+    		$arr_roles_possessed_keys[] = 0;
+    	}
+    	else 
+    	{
+    		foreach ($arr_roles_possessed as $key => $role_possessed)
+    		{
+    			$arr_roles_possessed_keys[] = $role_possessed['id'];
+    		}
+    	}
+   */     	 
+    	$arr_roles_available = DB::table('roles')
+    			->whereNotIn('id', $arr_roles_possessed_keys)
+    			->get();    	 
+    	return $arr_roles_available;
+    }    
 }

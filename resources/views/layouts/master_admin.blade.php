@@ -15,7 +15,21 @@
             
 
         <div class="container-fluid">
-            @yield('content')
+ 
+<div class="row">
+<div class="col-sm-1"> <br><br><br></div>
+<div class="col-sm-5"> 
+           
+    </div>
+<div class="col-sm-5"> <div class="text-right"><br> 
+   <a href='/admin/home'>Return to admin dashboard</a>
+	</div>
+</div>
+    
+<div class="col-sm-1"> </div>
+</div><!-- end row -->
+   
+        @yield('content')
         </div>
     </body>
 </html>

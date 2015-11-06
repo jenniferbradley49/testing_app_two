@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\Role;
 use DB;
+use Auth;
 
 class Role_user extends Model
 {
@@ -31,8 +32,17 @@ class Role_user extends Model
     
     public function hasRole($role_to_check)
     {
-    	$user = new User;
-    	return in_array($role_to_check, array_fetch($user->roles->toArray(), 'name'));
+    	$user = Auth::user();
+    	$arr_raw = $user->roles->toArray();
+    	$arr_processed = array();
+    	foreach ($arr_raw as $val )
+    	{
+    		$arr_processed[$val['id']] = $val['name'];
+    	}
+    	echo "in model role_user, arr_processed = ";
+    	print_r ($arr_processed);
+    	echo "<br>";
+    	return in_array($role_to_check, $arr_processed);
 	}
     
     

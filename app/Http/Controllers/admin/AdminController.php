@@ -11,6 +11,7 @@ use App\Role_user;
 use Hash;
 use Redirect;
 use DB;
+use Auth;
 
 class AdminController extends Controller
 {
@@ -23,11 +24,15 @@ class AdminController extends Controller
 	public function __construct(Role_user $role_user)
 	{
 		$this->middleware('auth');
+		if (Auth::check())
+		{
 		if(!($role_user->hasRole('admin')))
 		{
+			echo "admin role not fund - this code executed<br>";
 			Redirect::to('auth/login')
 			
 			->withErrors(array('message' => 'Your login does not have the appropriate privileges to view the intended page'));
+		}
 		}
 	}
 	

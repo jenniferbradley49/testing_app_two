@@ -24,7 +24,7 @@
 <div class="col-sm-2">
 <div class="text-right"> 
    <a href='/'>Return to site start</a>
-	</div>
+</div>
 </div>	
  
 <div class="col-sm-2">

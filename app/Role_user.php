@@ -39,10 +39,12 @@ class Role_user extends Model
     	{
     		$arr_processed[$val['id']] = $val['name'];
     	}
-    	echo "in model role_user, arr_processed = ";
-    	print_r ($arr_processed);
-    	echo "<br>";
-    	return in_array($role_to_check, $arr_processed);
+    //	echo "in model role_user, line 42<br>";
+    //	echo "role to check = $role_to_check <br>";
+    //	echo "<pre>";
+    //	print_r($arr_processed);
+    //	echo "</pre>";
+    	return in_array($role_to_check, $arr_processed, true);
 	}
     
     

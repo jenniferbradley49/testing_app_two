@@ -51,6 +51,19 @@
 //	Route::get('ajax/resort_users_admin', 'AjaxController@resort_users_admin');
 	Route::post('ajax/resort_users_admin', 'AjaxController@resort_users_admin');
 	Route::post('ajax/get_role_info_admin', 'AjaxController@get_role_info_admin');
-	
+
+	//Test provider organization routes
+	Route::get('test_provider_org/home', 'TestProviderOrganizationController@index');
+//	Route::get('admin/edit_user_admin', 'admin\AdminController@get_edit_user_admin');
+//	Route::post('admin/edit_user_admin', 'admin\AdminController@post_edit_user_admin');
+
+	//Test preparer routes
+	Route::get('test_preparer/home', 'TestPreparerController@index');
+
+	// test routes
+	Route::get('tests/add_test', 'tests\TestPreparerController@get_add_test');
+	Route::post('tests/add_test', 'tests\TestPreparerController@post_add_test');
+	Route::get('tests/edit_test', 'tests\TestPreparerController@get_edit_test');
+	Route::post('tests/edit_test', 'tests\TestPreparerController@post_edit_test');
 	
 	

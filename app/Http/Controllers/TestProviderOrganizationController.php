@@ -27,12 +27,12 @@ class TestProviderOrganizationController extends Controller
 		$this->middleware('auth');
 		if (Auth::check())
 		{
-		$this->bool_has_role = $role_user->hasRole('test provider organization');
-		if ($this->bool_has_role)
-		{
-			$this->obj_logged_in_user = Auth::user();
-			$this->arr_logged_in_user = $roleHelper->prepare_logged_in_user_info($this->obj_logged_in_user);
-		}
+			$this->bool_has_role = $role_user->hasRole('test provider organization');
+			if ($this->bool_has_role)
+			{
+				$this->obj_logged_in_user = Auth::user();
+				$this->arr_logged_in_user = $roleHelper->prepare_logged_in_user_info($this->obj_logged_in_user);
+			}
 		}
 	} // end __construct function
 	

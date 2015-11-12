@@ -1,8 +1,8 @@
 <!-- Stored in resources/views/test/add_test.blade.php -->
 
-@extends('layouts.master_test_provider_org')
+@extends('layouts.master_test_preparer')
 
-@section('title', 'Dashboard page - test preparer')
+@section('title', 'Add category - test preparer')
 
 
 
@@ -11,7 +11,7 @@
 <div class="row">
 <div class="col-sm-3"> <br><br><br></div>
 <div class="col-sm-6"> 
-   Add test       
+   Add category       
 </div>  
 <div class="col-sm-3"> </div>
 </div><!-- end row -->  
@@ -22,7 +22,7 @@
 	{!! Form::open() !!}
     {!! csrf_field() !!}
 <div class="row">
-<div class="col-sm-2"><br><br><br><br><br><br> </div>
+<div class="col-sm-2"><br><br><br> </div>
 <div class="col-sm-8"> 
 @if (count($errors) > 0)
         <ul>
@@ -39,7 +39,7 @@
 <div class="row">
 <div class="col-sm-1"> <br><br><br></div>
 <div class="col-sm-3"> 
-   {!! Form::label('category', 'Test category'); !!}            
+   {!! Form::label('category', 'Test category - this should represent a more general topic'); !!}            
     </div>
 <div class="col-sm-7"> 
    {!! Form::text('category', Input::old('category')); !!}
@@ -49,24 +49,12 @@
 </div><!-- end row -->
      
      
- 
-<div class="row">
-<div class="col-sm-1"> <br><br><br></div>
-<div class="col-sm-3"> 
-   {!! Form::label('sub_category', 'Test sub category'); !!}            
-    </div>
-<div class="col-sm-7"> 
-   {!! Form::text('sub_category', Input::old('sub_category')); !!}
-</div>
-    
-<div class="col-sm-1"> </div>
-</div><!-- end row -->
-     
+      
      
 <div class="row">
 <div class="col-sm-3"> </div>
 <div class="col-sm-6"> 
-    {!! Form::submit('Register'); !!}          
+    {!! Form::submit('Add category'); !!}          
     </div>  
 <div class="col-sm-3"> </div>
 </div><!-- end row -->

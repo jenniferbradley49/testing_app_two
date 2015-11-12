@@ -24,13 +24,16 @@ class AdminController extends Controller
 	public function __construct(Role_user $role_user, RoleHelper $roleHelper)
 	{
 		$this->middleware('auth');
-		$this->roleHelper = $roleHelper;
-		$this->bool_has_role = $role_user->hasRole('admin');
-		if ($this->bool_has_role)
+		if (Auth::check())
 		{
-			$this->obj_logged_in_user = Auth::user();
-			$this->arr_logged_in_user = $roleHelper->prepare_logged_in_user_info($this->obj_logged_in_user);
-		}
+			$this->roleHelper = $roleHelper;
+			$this->bool_has_role = $role_user->hasRole('admin');
+			if ($this->bool_has_role)
+			{
+				$this->obj_logged_in_user = Auth::user();
+				$this->arr_logged_in_user = $roleHelper->prepare_logged_in_user_info($this->obj_logged_in_user);
+			}
+		}  // end if Auth::check()
 	} // end __construct function
 		
 	

@@ -37,7 +37,7 @@
  
 <div class="col-sm-2">
 
- <div class="text-right"><a href='/test_provider_org/home'>Return to admin dashboard</a>
+ <div class="text-right"><a href='/test_preparer/home'>Return to test preparer dashboard</a>
 	</div>
 </div>
     

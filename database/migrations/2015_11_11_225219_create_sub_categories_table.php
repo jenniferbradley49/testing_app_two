@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTestsTable extends Migration
+class CreateSubCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateTestsTable extends Migration
     public function up()
     {
     	Schema::create(
-    	'tests',
+    	'sub_categories',
     	function (Blueprint $table) {
     		$table->increments('id')->unsigned();
-    		$table->string('title');
-    		$table->integer('sub_category_id')->unsigned();
-//    		$table->integer('test_preparer_id')->unsigned();
-//    		$table->foreign('sub_category_id')->references('id')->on('sub_categories');
+    		$table->string('sub_category');
+    		$table->integer('category_id')->unsigned();
+    		$table->foreign('category_id')->references('id')->on('categories');
     		$table->timestamps();
-    	});   	 
+    	});
+    	 
     }
 
     /**
@@ -31,6 +31,6 @@ class CreateTestsTable extends Migration
      */
     public function down()
     {
-    	Schema::drop('tests');
+    	Schema::drop('sub_categories');
     }
 }

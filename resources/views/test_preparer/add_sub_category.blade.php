@@ -1,8 +1,8 @@
 <!-- Stored in resources/views/test/add_test.blade.php -->
 
-@extends('layouts.master_test_provider_org')
+@extends('layouts.master_test_preparer')
 
-@section('title', 'Dashboard page - test preparer')
+@section('title', 'Add sub category - test preparer')
 
 
 
@@ -11,7 +11,7 @@
 <div class="row">
 <div class="col-sm-3"> <br><br><br></div>
 <div class="col-sm-6"> 
-   Add test       
+   Add sub category       
 </div>  
 <div class="col-sm-3"> </div>
 </div><!-- end row -->  
@@ -22,7 +22,7 @@
 	{!! Form::open() !!}
     {!! csrf_field() !!}
 <div class="row">
-<div class="col-sm-2"><br><br><br><br><br><br> </div>
+<div class="col-sm-2"><br><br><br> </div>
 <div class="col-sm-8"> 
 @if (count($errors) > 0)
         <ul>
@@ -35,25 +35,29 @@
 <div class="col-sm-2"> </div>
 </div><!-- end row -->
     
- 
+     
 <div class="row">
-<div class="col-sm-1"> <br><br><br></div>
+<div class="col-sm-3"> <br><br><br></div>
 <div class="col-sm-3"> 
-   {!! Form::label('category', 'Test category'); !!}            
+   {!! Form::label('category_id', 'Please choose a category'); !!}            
     </div>
-<div class="col-sm-7"> 
-   {!! Form::text('category', Input::old('category')); !!}
+<div class="col-sm-4">
+<select name="category_id" id="category_id">
+@foreach($data['arr_categories_processed'] as $key => $category)
+<option value="{{ $key }}" {{ (Input::old('category_id', 0) == $key ? ' selected="selected"' : '') }}>{{ $category }}</option>
+@endforeach
+</select>
+   
 </div>
-    
+    <div class="col-sm-2"><div id="status"></div> </div>
 <div class="col-sm-1"> </div>
 </div><!-- end row -->
      
-     
  
 <div class="row">
 <div class="col-sm-1"> <br><br><br></div>
 <div class="col-sm-3"> 
-   {!! Form::label('sub_category', 'Test sub category'); !!}            
+   {!! Form::label('sub_category', 'Test sub category - this should represent a more specific topic'); !!}            
     </div>
 <div class="col-sm-7"> 
    {!! Form::text('sub_category', Input::old('sub_category')); !!}
@@ -63,10 +67,12 @@
 </div><!-- end row -->
      
      
+      
+     
 <div class="row">
 <div class="col-sm-3"> </div>
 <div class="col-sm-6"> 
-    {!! Form::submit('Register'); !!}          
+    {!! Form::submit('Add sub category'); !!}          
     </div>  
 <div class="col-sm-3"> </div>
 </div><!-- end row -->

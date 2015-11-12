@@ -59,11 +59,19 @@
 
 	//Test preparer routes
 	Route::get('test_preparer/home', 'TestPreparerController@index');
-
+	Route::get('test_preparer/add_category', 'TestPreparerController@get_add_category');
+	Route::post('test_preparer/add_category', 'TestPreparerController@post_add_category');
+	Route::get('test_preparer/add_sub_category', 'TestPreparerController@get_add_sub_category');
+	Route::post('test_preparer/add_sub_category', 'TestPreparerController@post_add_sub_category');
+	Route::get('test_preparer/edit_category', 'TestPreparerController@get_edit_category');
+	Route::post('test_preparer/edit_category', 'TestPreparerController@post_edit_category');
+	Route::get('test_preparer/edit_sub_category', 'TestPreparerController@get_edit_sub_category');
+	Route::post('test_preparer/edit_sub_category', 'TestPreparerController@post_edit_sub_category');
+	
 	// test routes
-	Route::get('tests/add_test', 'tests\TestPreparerController@get_add_test');
-	Route::post('tests/add_test', 'tests\TestPreparerController@post_add_test');
-	Route::get('tests/edit_test', 'tests\TestPreparerController@get_edit_test');
-	Route::post('tests/edit_test', 'tests\TestPreparerController@post_edit_test');
+	Route::get('tests/add_test', 'tests\TestController@get_add_test');
+	Route::post('tests/add_test', 'tests\TestController@post_add_test');
+	Route::get('tests/edit_test', 'tests\TestController@get_edit_test');
+	Route::post('tests/edit_test', 'tests\TestController@post_edit_test');
 	
 	

@@ -1,6 +1,6 @@
 <!-- Stored in resources/views/dashboard.blade.php -->
 
-@extends('layouts.master_test_provider_org')
+@extends('layouts.master_test_preparer')
 
 @section('title', 'Dashboard page - test preparer')
 

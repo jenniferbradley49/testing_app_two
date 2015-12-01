@@ -11,6 +11,7 @@ use App\Role_user;
 use Redirect;
 use Auth;
 use App\classes\RoleHelper;
+use App\Models\Category;
 
 class TestController extends Controller
 {
@@ -34,7 +35,7 @@ class TestController extends Controller
 		}
 	} // end __construct function
 	
-    public function get_add_test()
+    public function get_add_test(Category $category)
     {
     	if (!$this->bool_has_role)
     	{
@@ -48,7 +49,7 @@ class TestController extends Controller
     			'arr_logged_in_user' => $this->arr_logged_in_user,
     			'arr_categories_processed' => $arr_categories_processed    				
     		);
-    		    		return view('tests/add_test')->with('data', $data);
+    		return view('tests/add_test')->with('data', $data);
     	}
     }
 

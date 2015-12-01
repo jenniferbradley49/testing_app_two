@@ -23,4 +23,10 @@ class Category extends Model
 	}  // end function process_users
 	
 	
+	public function get_sub_categories($category_id)
+	{
+		$arr_sub_categories_raw = $this
+					->where('category_id', $category_id)
+					->toArray();
+	}
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Admin;
 use App\Role;
 use App\Role_user;
 use Hash;
@@ -65,7 +66,8 @@ class AdminController extends Controller
     	}
     }
     
-    public function post_add_user_admin(Request $request)
+    public function post_add_user_admin(
+    		Request $request, Admin $admin, User $user)
     {
     	if (!$this->bool_has_role)
     	{
@@ -73,23 +75,26 @@ class AdminController extends Controller
     	}
     	else 
     	{
-    		$validation_rules = [
-    			'first_name' => 'required|max:50',
-    			'last_name' => 'required|max:50',
-    			'email' => 'required|email|max:50|unique:users',
-    			'password' => 'required|confirmed|max:50|min:6'
-    			]; 
+//    		$validation_rules = [
+//   			'first_name' => 'required|max:50',
+ //   			'last_name' => 'required|max:50',
+ //   			'email' => 'required|email|max:50|unique:users',
+ //   			'password' => 'required|confirmed|max:50|min:6'
+ //   			]; 
+    		$validation_rules = $admin->getValidationRules();
     		$this->validate($request, $validation_rules);
-    	 
+/*    	 
     		$arr_user_info = array(
     			'first_name'     => $request->first_name,
     			'last_name' => $request->last_name,
     			'email'    => $request->email,
     			'password' => Hash::make($request->password)
     		);
-    	 
-    		$user = new User;
-    		foreach ($arr_user_info as $key =>$val)
+ */
+    		$arr_request = $admin->getRequestArray($request);
+    		
+//    		$user = new User;
+    		foreach ($arr_request as $key =>$val)
     		{
     			$user->$key = $val;
     		}

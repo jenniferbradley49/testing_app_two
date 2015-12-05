@@ -11,7 +11,7 @@
 	<div class="col-sm-8"> 
 		The user was successfully updated with the following info:
 		<ul>
-		@foreach ($data['arr_user_info'] as $key => $val)
+		@foreach ($data['arr_request'] as $key => $val)
 			<li>{!!$key!!}&nbsp;&nbsp;{!!$val!!}</li>
 		@endforeach
 		</ul>

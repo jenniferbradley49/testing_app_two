@@ -35,15 +35,15 @@
 	Route::post('password/reset', 'Auth\PasswordController@postReset');
 	
 	// admin routes
-	Route::get('admin/add_user_admin', 'admin\AdminController@get_add_user_admin');
-	Route::post('admin/add_user_admin', 'admin\AdminController@post_add_user_admin');
+	Route::get('admin/add_user', 'admin\AdminController@get_add_user');
+	Route::post('admin/add_user', 'admin\AdminController@post_add_user');
 	Route::get('admin/home', 'admin\AdminController@index');
-	Route::get('admin/edit_user_admin', 'admin\AdminController@get_edit_user_admin');
-	Route::post('admin/edit_user_admin', 'admin\AdminController@post_edit_user_admin');
-	Route::get('admin/add_role_admin', 'admin\AdminController@get_add_role_admin');
-	Route::post('admin/add_role_admin', 'admin\AdminController@post_add_role_admin');
-	Route::get('admin/delete_role_admin', 'admin\AdminController@get_delete_role_admin');
-	Route::post('admin/delete_role_admin', 'admin\AdminController@post_delete_role_admin');
+	Route::get('admin/edit_user', 'admin\AdminController@get_edit_user');
+	Route::post('admin/edit_user', 'admin\AdminController@post_edit_user');
+	Route::get('admin/add_role', 'admin\AdminController@get_add_role');
+	Route::post('admin/add_role', 'admin\AdminController@post_add_role');
+	Route::get('admin/delete_role', 'admin\AdminController@get_delete_role');
+	Route::post('admin/delete_role', 'admin\AdminController@post_delete_role');
 	
 // AJAX routes	
 //	Route::get('ajax/get_user_info_admin', 'AjaxController@get_user_info_admin');

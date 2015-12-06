@@ -67,6 +67,7 @@ class ThreeStepController extends Controller
 			{
 				$threeStep->three_step_id = Hash::make((string)time());
     			$threeStep->session_id = $request->session()->getId();
+				$threeStep->role = $role;
     			$threeStep->save();
     			
  //   			$password_reset_id = $password_reset->id;
@@ -75,7 +76,10 @@ class ThreeStepController extends Controller
  //   			$recipient = $threeStepUser->getRecipient($role);
      			$recipient = $obj_ts_user->email;
      			$data = $threeStep->getDataArrayEmail($arr_request['confidence_msg'], $three_step_url);
-   				$mail_content = view('emails/three_step')->with('data', $data);
+echo "<pre>";
+print_r($data);
+echo "</pre>";
+     			$mail_content = view('emails/three_step')->with('data', $data);
     			// this is the laravel mail
     			// commented out as no credentials for mail server are available
     			// see function in user.php moldel for more info
@@ -98,15 +102,16 @@ class ThreeStepController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function getStepTwo(Request $request, ThreeStep $threeStep)
     {
-        //
+/*    	$validation_rules = $threeStep->getValidationRulesStepTwo();
+    	$this->validate($request, $validation_rules);
+    	$arr_request = $threeStep->getRequestArrayStepTwo($request);
+    	$role = Session::get('three_step_role');
+    	$obj_three_step = $threeStep
+    	->where('user', $role)
+    	->first();
+ */   	 
     }
 
     /**

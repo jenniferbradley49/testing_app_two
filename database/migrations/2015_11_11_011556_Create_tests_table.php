@@ -19,7 +19,7 @@ class CreateTestsTable extends Migration
     		$table->string('title');
     		$table->integer('sub_category_id')->unsigned();
 //    		$table->integer('test_preparer_id')->unsigned();
-//    		$table->foreign('sub_category_id')->references('id')->on('sub_categories');
+    		$table->foreign('sub_category_id')->references('id')->on('sub_categories');
     		$table->timestamps();
     	});   	 
     }

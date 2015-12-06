@@ -10,12 +10,15 @@ class ThreeStepMiddleware
 
 {
 	var $three_step;
+	var $role;
 
 	public function __construct(
-			ThreeStep $three_step)
+			ThreeStep $three_step,
+			Role $role)
 	{
 		$this->three_step = $three_step;
-//		$this->role_user = $role_user;
+		$this->role = $role;
+		//		$this->role_user = $role_user;
 //		$this->roleHelper = $roleHelper;
 	}
 	
@@ -34,8 +37,9 @@ class ThreeStepMiddleware
     	if (!(isset($three_step_id)))
     	{
     		echo "in three step middleware, role = $role<br>";
- //   		$this->three_step->setRole($role);
-    		Session::put('three_step_role', $role);
+    		$obj_role = $this->role->where('name', $role)->first();
+    		Session::put('role_id', $obj_role->id);
+    		Session::put('cloaked_role_id', $obj_role->cloaked_id);
     		return redirect ('three_step/step_one');
     	}
     	else 

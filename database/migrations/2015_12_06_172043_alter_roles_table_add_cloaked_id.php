@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TestTableAddForeignKey extends Migration
+class AlterRolesTableAddCloakedId extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,9 @@ class TestTableAddForeignKey extends Migration
      */
     public function up()
     {
-    	Schema::table(
-    	'tests',
-    	function (Blueprint $table) {
-//   		$table->foreign('sub_category_id')->references('id')->on('sub_categories');
+    	Schema::table('roles', function($table){
+    		$table->string('cloaked_id', 100)->after('id');
     	});
-    	 
     }
 
     /**
@@ -27,13 +24,12 @@ class TestTableAddForeignKey extends Migration
      */
     public function down()
     {
-    	Schema::table(
-    	'tests',
-    	function (Blueprint $table) {
-//    		$table->dropForeign('sub_category_id');
+    	Schema::table('roles', function($table){
+    		$table->dropColumn('cloaked_id');
     	});
-    }
+    	    }
 }
+
 
 
 

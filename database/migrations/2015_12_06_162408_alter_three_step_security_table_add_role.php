@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TestTableAddForeignKey extends Migration
+class AlterThreeStepSecurityTableAddRole extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,10 @@ class TestTableAddForeignKey extends Migration
      */
     public function up()
     {
-    	Schema::table(
-    	'tests',
-    	function (Blueprint $table) {
-//   		$table->foreign('sub_category_id')->references('id')->on('sub_categories');
+    	Schema::table('three_step_security', function($table){
+    		$table->string('role_id', 100)->after('three_step_id');
     	});
-    	 
-    }
+     }
 
     /**
      * Reverse the migrations.
@@ -27,13 +24,8 @@ class TestTableAddForeignKey extends Migration
      */
     public function down()
     {
-    	Schema::table(
-    	'tests',
-    	function (Blueprint $table) {
-//    		$table->dropForeign('sub_category_id');
+    	Schema::table('three_step_security', function($table){
+    		$table->dropColumn('role_id');
     	});
     }
 }
-
-
-

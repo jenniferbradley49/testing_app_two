@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Html;
 
 class ThreeStep extends Model
 {
@@ -31,6 +32,14 @@ class ThreeStep extends Model
 	}
 	
 
+	public function getValidationRulesStepTwo()
+	{
+		return array(
+				'token' => 'required|max:100'
+		);
+	}
+	
+	
 	public function getRequestArray($request)
 	{
 		return array(
@@ -40,6 +49,14 @@ class ThreeStep extends Model
 	}
 	
 
+	public function getRequestArray($request)
+	{
+		return array(
+				'token' => $request->token
+		);
+	}
+	
+	
 	public function getDataArrayGetStepOne($hint)
 	{
 		return array(
@@ -59,7 +76,7 @@ class ThreeStep extends Model
 	{
 		return array(
 				'confidence_msg' => $confidence_msg,
-				'three_step_url' => $three_step_url,
+				'three_step_link' => Html::link($three_step_url, 'Click here'),
 		);
 	}
 	

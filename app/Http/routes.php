@@ -45,6 +45,10 @@
 	Route::get('admin/delete_role', 'admin\AdminController@get_delete_role');
 	Route::post('admin/delete_role', 'admin\AdminController@post_delete_role');
 	
+// three step security routes
+	Route::get('three_step/step_one', 'ThreeStepController@getStepOne');
+	Route::post('three_step/step_one', 'ThreeStepController@postStepOne');
+		
 // AJAX routes	
 //	Route::get('ajax/get_user_info_admin', 'AjaxController@get_user_info_admin');
 	Route::post('ajax/get_user_info_admin', 'AjaxController@get_user_info_admin');

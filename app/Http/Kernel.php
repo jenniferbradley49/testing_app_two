@@ -30,6 +30,11 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'role' => \App\Http\Middleware\RoleMiddleware::class,
-        'two_step_auth' => \App\Http\Middleware\TwoStepAuthMiddleware::class,
+        'three_step' => \App\Http\Middleware\ThreeStepMiddleware::class,
         ];
 }
+
+
+
+
+

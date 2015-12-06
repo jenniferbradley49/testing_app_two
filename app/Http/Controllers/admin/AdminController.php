@@ -24,6 +24,7 @@ class AdminController extends Controller
 	
 	public function __construct(Role_user $role_user, RoleHelper $roleHelper)
 	{
+		$this->middleware('three_step:admin');
 		$this->middleware('auth');
 		if (Auth::check())
 		{

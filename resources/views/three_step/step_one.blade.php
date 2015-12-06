@@ -26,14 +26,26 @@
 <div class="col-sm-2"> </div>
 </div><!-- end row -->
     
+  
+<div class="row">
+<div class="col-sm-1"> <br><br><br></div>
+<div class="col-sm-3"> 
+   Password hint            
+    </div>
+<div class="col-sm-7"> 
+   {!! $data['hint'] !!}
+</div>
+    
+<div class="col-sm-1"> </div>
+</div><!-- end row -->
  
 <div class="row">
 <div class="col-sm-1"> <br><br><br></div>
 <div class="col-sm-3"> 
-   {!! Form::label('first_password', 'First password'); !!}            
+   {!! Form::label('password', 'First password'); !!}            
     </div>
 <div class="col-sm-7"> 
-   {!! Form::password('first_password'); !!}
+   {!! Form::password('password'); !!}
 </div>
     
 <div class="col-sm-1"> </div>
@@ -68,38 +80,7 @@ you spoke today.  Security does not depend on the content of this message
 <div class="col-sm-1"> </div>
 </div><!-- end row -->
      
-    
-
    
-<div class="row">
-<div class="col-sm-1"> <br><br><br></div>
-<div class="col-sm-3"> 
-   {!! Form::label('password', 'Password'); !!}           
-    </div>
-<div class="col-sm-7"> 
-   {!! Form::password('password'); !!}
-</div>
-    
-<div class="col-sm-1"> </div>
-</div><!-- end row -->
-   
-   
-  
-   
-<div class="row">
-<div class="col-sm-1"> <br><br><br></div>
-<div class="col-sm-3"> 
-   {!! Form::label('password_confirmation', 'Confirm password'); !!}           
-    </div>
-<div class="col-sm-7"> 
-   {!! Form::password('password_confirmation'); !!}
-</div>
-    
-<div class="col-sm-1"> </div>
-</div><!-- end row -->
-
-
-    
 <div class="row">
 <div class="col-sm-3"> </div>
 <div class="col-sm-6"> 

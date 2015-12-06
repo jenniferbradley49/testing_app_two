@@ -7,6 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class ThreeStep extends Model
 {
 	protected $table = 'three_step_security';
+	protected static $role = 'user';
+
+	
+	public function setRole($role)
+	{
+		self::$role = $role;
+	}
+
+	
+	public function getRole()
+	{
+		return self::$role;
+	}
+	
 	
 	public function getValidationRules()
 	{
@@ -21,7 +35,7 @@ class ThreeStep extends Model
 	{
 		return array(
 			'confidence_msg' => $request->confidence_msg,
-			'password' => \Hash::make($request->password)
+			'password' => $request->password
 		);
 	}
 	
@@ -32,29 +46,39 @@ class ThreeStep extends Model
 			'hint' => $hint
 		);
 	}
-	
-	public function prepareURL($token)
+
+	public function getDataArrayMiddleware()
 	{
-		$password_reset_url = url('three_step/step_two');
-		$password_reset_url .= '?token=';
-		$password_reset_url .= $token;
-		return $password_reset_url;
+		return array(
+				'role' => $this->role
+		);
+	}
+	
+
+	public function getDataArrayEmail($confidence_msg, $three_step_url)
+	{
+		return array(
+				'confidence_msg' => $confidence_msg,
+				'three_step_url' => $three_step_url,
+		);
 	}
 	
 	
-	public function getRecipient($user)
+	public function prepareURL($token)
 	{
-		$obj_user = $this->where('user', $user)->first();
-		return $obj_user->email;
+		$product_url = url('three_step/step_two');
+		$product_url .= '?token=';
+		$product_url .= $token;
+		return $product_url;
 	}
 	
 	
 	public function sendMailThreeStep(
 			$mail_content,
-			$obj_user )
+			$recipient )
 	{
 	
-		$to      = $obj_user->email;
+		$to      = $recipient;
 		$subject = 'password reset - cognitoys';
 		$message = $mail_content;
 		//		$headers = 'From: hello@cognitoys.com' . "\r\n" .
@@ -64,7 +88,7 @@ class ThreeStep extends Model
 		//				'Content-type:text/html;charset=UTF-8';
 		//		$headers  = 'MIME-Version: 1.0' . "\r\n";
 		//		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-		$headers = 'From: hello@cognitoys.com' . "\r\n";
+		$headers = 'From: hello@pad.com' . "\r\n";
 		$headers .= 'Reply-To: hello@cognitoys.com'. "\r\n";
 		$headers .= 'X-Mailer: PHP/' . phpversion();
 	

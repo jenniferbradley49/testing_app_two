@@ -14,7 +14,7 @@ class CreateThreeStepUsersTable extends Migration
     {
         Schema::create('three_step_users', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('user');
+            $table->integer('role_id')->unique();
             $table->string('email');
             $table->string('password', 60);
             $table->string('hint');

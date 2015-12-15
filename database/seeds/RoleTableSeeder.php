@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Hash;
+//use Hash;
 use App\Role;
 
 class RoleTableSeeder extends Seeder
@@ -16,27 +16,27 @@ class RoleTableSeeder extends Seeder
     	DB::table('roles')->delete();
     	Role::create(array(
     	'name'     => 'test provider organization',
-    	'cloaked_id' => Hash::make('tpo'.(string)time())
+    	'cloaked_id' => \Hash::make('tpo'.(string)time())
     	));
     	
     	Role::create(array(
     	'name'     => 'test provider individual',
-    	'cloaked_id' => Hash::make('tpi'.(string)time())
+    	'cloaked_id' => \Hash::make('tpi'.(string)time())
     	));
     					
     	Role::create(array(
     	'name'     => 'test preparer',
-    	'cloaked_id' => Hash::make('tp'.(string)time())
+    	'cloaked_id' => \Hash::make('tp'.(string)time())
     	));
     							
     	Role::create(array(
     	'name'     => 'test taker',
-    	'cloaked_id' => Hash::make('tt'.(string)time())
+    	'cloaked_id' => \Hash::make('tt'.(string)time())
     	));
     	
     	Role::create(array(
     	'name'     => 'admin',
-    	'cloaked_id' => Hash::make('adm'.(string)time())
+    	'cloaked_id' => \Hash::make('adm'.(string)time())
     	));
     									 
     }

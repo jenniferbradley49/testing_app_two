@@ -1,5 +1,5 @@
 <?php
-namespace App\Libraries;
+namespace App\classes;
 
 class CommonCode
 {
@@ -20,39 +20,17 @@ class CommonCode
 	}
 	
 
-    /**
-     * @param array $arr_data
-     * @return string|multitype:string
-     */
-	public function getSuccessMessage($arr_data)
+	public function setCheckboxVar($checkbox)
 	{
-		$arr_return = array(
-				'status' => 'success',
-				'data' => $arr_data
-		);
-		return json_encode($arr_return);
-	}
-
-    /**
-     * @param array $arr_data
-     * @return string|multitype:string
-     */
-	public function getFailMessageOther($arr_data)
-	{
-		$arr_return = array(
-				'status' => 'fail',
-				'data' => $arr_data
-		);
-		return json_encode($arr_return);
-	}
-	
-	
-    /**
-     * @return string|multitype:string
-     */
-	public function getDefaultMessage()
-	{
-		return json_encode(array('status' => 'fail'));
+		// accepts checkbox on or off, returns 1 or 0
+	    if ((isset($checkbox) && ($checkbox == 'on')))
+    	{
+    		return 1;
+    	}
+    	else
+        {
+    		return 0;
+    	}
 	}
 	
 }

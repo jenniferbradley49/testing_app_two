@@ -17,31 +17,31 @@
         <div class="container-fluid">
  
 <div class="row">
-<div class="col-sm-2"> <br><br><br></div>
-<div class="col-sm-4"> 
-         Logged in as 
+<div class="col-sm-5"> 
+        &nbsp; Logged in as 
          {{ $data['arr_logged_in_user']['email'] }} &nbsp
          {{ $data['arr_logged_in_user']['last_name'] }},
          {{ $data['arr_logged_in_user']['first_name'] }}
          </div>
- <div class="col-sm-1">
-<div class="text-center"> 
+ <div class="col-sm-2">
+<a href="/three_step/logout">three step log out</a>
+</div>         
+         <div class="col-sm-1">
 <a href="/auth/logout">Log out</a>
-</div>
 </div>         
          <div class="col-sm-2">
 <div class="text-right"> 
-   <a href='/'>Return to site start</a>
+   <a href='/'>site start</a>
 </div>
 </div>	
  
 <div class="col-sm-2">
 
- <div class="text-right"><a href='/admin/home'>Return to admin dashboard</a>
-	</div>
+ <a href='/admin/home'>admin dashboard</a>
+&nbsp;	
 </div>
     
-<div class="col-sm-1"> </div>
+
 </div><!-- end row -->
    
         @yield('content')

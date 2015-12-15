@@ -163,7 +163,7 @@ Delete role - admin
 <div class="row">
 <div class="col-sm-3"> <br><br><br></div>
 <div class="col-sm-3"> 
-   {!! Form::label('role_id', 'Please choose a role to add'); !!}            
+   {!! Form::label('role_id', 'Please choose a role to delete'); !!}            
     </div>
 <div class="col-sm-4">
 <select name="role_id" id="role_id">

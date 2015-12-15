@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterThreeStepSecurityTableAddRole extends Migration
+class AlterTableThreeStepSecurityChangeCloakedRoleIdToString extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,8 @@ class AlterThreeStepSecurityTableAddRole extends Migration
      */
     public function up()
     {
-    	Schema::table('three_step_security', function($table){
-    		$table->integer('role_id')->after('three_step_id');
-    	});
-     }
+       	DB::statement('ALTER TABLE `three_step_security` MODIFY `cloaked_role_id` varchar(100);');
+    }
 
     /**
      * Reverse the migrations.
@@ -24,8 +22,6 @@ class AlterThreeStepSecurityTableAddRole extends Migration
      */
     public function down()
     {
-    	Schema::table('three_step_security', function($table){
-    		$table->dropColumn('role_id');
-    	});
+       	DB::statement('ALTER TABLE `three_step_security` MODIFY `cloaked_role_id` integer;');
     }
 }

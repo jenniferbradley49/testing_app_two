@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Html;
+use Storage;
 
 class ThreeStep extends Model
 {
 	protected $table = 'three_step_security';
 	protected static $role = 'user';
+	protected $fillable = ['three_step_id', 'role_id', 'cloaked_role_id', 'session_id'];
 
 	
 	public function setRole($role)
@@ -35,7 +37,8 @@ class ThreeStep extends Model
 	public function getValidationRulesStepTwo()
 	{
 		return array(
-				'token' => 'required|max:100'
+				'three_step_id' => 'required|max:100',
+				'cloaked_role_id' => 'required|max:100',
 		);
 	}
 	
@@ -49,10 +52,11 @@ class ThreeStep extends Model
 	}
 	
 
-	public function getRequestArray($request)
+	public function getRequestArrayStepTwo($request)
 	{
 		return array(
-				'token' => $request->token
+				'three_step_id' => $request->three_step_id,
+				'cloaked_role_id' => $request->cloaked_role_id,
 		);
 	}
 	
@@ -81,22 +85,24 @@ class ThreeStep extends Model
 	}
 	
 	
-	public function prepareURL($token)
+	public function prepareURL($three_step_id, $cloaked_role_id)
 	{
 		$product_url = url('three_step/step_two');
-		$product_url .= '?token=';
-		$product_url .= $token;
+		$product_url .= '?three_step_id=';
+		$product_url .= $three_step_id;
+		$product_url .= '&cloaked_role_id=';
+		$product_url .= $cloaked_role_id;
 		return $product_url;
 	}
 	
-	
+/*	
 	public function sendMailThreeStep(
 			$mail_content,
 			$recipient )
 	{
-	
+echo "in three step model, line 101 reached<br>";	
 		$to      = $recipient;
-		$subject = 'password reset - cognitoys';
+		$subject = 'three step security check';
 		$message = $mail_content;
 		//		$headers = 'From: hello@cognitoys.com' . "\r\n" .
 		//				'Reply-To: hello@cognitoys.com' . "\r\n" .
@@ -106,10 +112,23 @@ class ThreeStep extends Model
 		//		$headers  = 'MIME-Version: 1.0' . "\r\n";
 		//		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 		$headers = 'From: hello@pad.com' . "\r\n";
-		$headers .= 'Reply-To: hello@cognitoys.com'. "\r\n";
-		$headers .= 'X-Mailer: PHP/' . phpversion();
-	
-		mail($to, $subject, $message, $headers);
+		$headers .= 'Reply-To: hello@pad.com'. "\r\n";
+		$headers .= 'X-Mailer: PHP/' . phpversion(). "\r\n";
+		echo "in three step model, line 115 reached<br>";
+		echo "to = $to<br>";
+		echo "subject = $subject<br>";
+		echo "message = $message<br><br>";
+		echo "headers = $headers<br><br>";
+		return mail($to, $subject, $message, $headers);
+	}
+*/
+
+	public function sendMailThreeStep(
+			$mail_content,
+			$recipient )
+	{
+		Storage::put('three_step_email.txt', $mail_content);
+		return true;
 	}
 	
 	

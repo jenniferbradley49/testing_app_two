@@ -48,7 +48,12 @@
 // three step security routes
 	Route::get('three_step/step_one', 'ThreeStepController@getStepOne');
 	Route::post('three_step/step_one', 'ThreeStepController@postStepOne');
-		
+	Route::get('three_step/step_two', 'ThreeStepController@getStepTwo');
+	Route::get('three_step/logout', 'ThreeStepController@getLogout');
+
+// three step security admin routes	
+	Route::get('three_step_admin/dashboard', 'ThreeStepAuth/ThreeStepAdminController@getViewLogs');
+	
 // AJAX routes	
 //	Route::get('ajax/get_user_info_admin', 'AjaxController@get_user_info_admin');
 	Route::post('ajax/get_user_info_admin', 'AjaxController@get_user_info_admin');

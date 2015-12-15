@@ -74,11 +74,12 @@ class Admin extends Model
     } 
     
     
-    public function getDataArrayGetEditUserAdmin($arr_request, $arr_users)
+    public function getDataArrayGetEditUserAdmin(
+    		$arr_users_processed, $arr_logged_in_user)
     {
     	return array(
     		'arr_users' => $arr_users_processed,
-    		'arr_logged_in_user' => $this->arr_logged_in_user
+    		'arr_logged_in_user' => $arr_logged_in_user
        	);
     }
     

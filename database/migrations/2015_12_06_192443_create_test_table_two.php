@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTestsTable extends Migration
+class CreateTestTableTwo extends Migration
 {
     /**
      * Run the migrations.
@@ -34,3 +34,8 @@ class CreateTestsTable extends Migration
     	Schema::drop('tests');
     }
 }
+
+
+
+
+

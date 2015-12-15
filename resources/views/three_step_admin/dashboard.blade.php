@@ -15,13 +15,25 @@
 <div class="row">
 <div class="col-sm-3"> <br><br><br></div>
 <div class="col-sm-6"> 
-   Administrator dashboard page        
+   Three step security administrator dashboard page        
     </div>
 
     
 <div class="col-sm-3"> </div>
 </div><!-- end row -->  
-     
+
+
+<div class="row">
+<div class="col-sm-1"> <br><br><br></div>
+<div class="col-sm-5"> 
+   <a href="/three_step_admin/view_log">View log</a>         
+    </div>
+<div class="col-sm-5"> 
+   <a href='/three_step_admin/configure'>Configure options</a>
+</div>    
+<div class="col-sm-1"> </div>
+</div><!-- end row -->
+
 <div class="row">
 <div class="col-sm-1"> <br><br><br></div>
 <div class="col-sm-5"> 
@@ -29,8 +41,7 @@
     </div>
 <div class="col-sm-5"> 
    <a href='/admin/edit_user'>Edit user - admin</a>
-</div>
-    
+</div>    
 <div class="col-sm-1"> </div>
 </div><!-- end row -->
 

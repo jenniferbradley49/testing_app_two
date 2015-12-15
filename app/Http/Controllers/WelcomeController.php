@@ -23,11 +23,7 @@ class WelcomeController extends Controller
     public function index()
     {
         //
- //   	$password = 'siErra44';
-//    	$hashed_password = \Hash::make($password);
-//    	echo "password = $password<br>";
-//    	echo "hashed password = $hashed_password<br>";
-    	 
+     	 
     	return view('welcome');
     }
 

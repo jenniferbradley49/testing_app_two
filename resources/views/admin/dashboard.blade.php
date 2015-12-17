@@ -47,6 +47,18 @@
 <div class="col-sm-1"> </div>
 </div><!-- end row -->
 
+       
+<div class="row">
+<div class="col-sm-1"> <br><br><br></div>
+<div class="col-sm-5"> 
+   <a href="/log/add_log_event">Add log event</a>         
+    </div>
+<div class="col-sm-5"> 
+   <a href='/log/edit_log_event'>Edit log event</a>
+</div>
+    
+<div class="col-sm-1"> </div>
+</div><!-- end row -->
      
 <div class="row">
 <div class="col-sm-1"> <br><br><br></div>

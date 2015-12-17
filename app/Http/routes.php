@@ -44,6 +44,10 @@
 	Route::post('admin/add_role', 'admin\AdminController@post_add_role');
 	Route::get('admin/delete_role', 'admin\AdminController@get_delete_role');
 	Route::post('admin/delete_role', 'admin\AdminController@post_delete_role');
+	Route::get('log/add_log_event', 'LogController@get_add_log_event');
+	Route::post('log/add_log_event', 'LogController@post_add_log_event');
+	Route::get('log/edit_log_event', 'LogController@get_edit_log_event');
+	Route::post('log/edit_log_event', 'LogController@post_edit_log_event');
 	
 // three step security routes
 	Route::get('three_step/step_one', 'ThreeStepController@getStepOne');
@@ -52,7 +56,11 @@
 	Route::get('three_step/logout', 'ThreeStepController@getLogout');
 
 // three step security admin routes	
-	Route::get('three_step_admin/dashboard', 'ThreeStepAuth/ThreeStepAdminController@getViewLogs');
+	Route::get('three_step_admin/dashboard', 'ThreeStepAuth\ThreeStepAdminController@index');
+	Route::get('three_step_admin/view_log', 'ThreeStepAuth\ThreeStepAdminController@get_view_log');
+	Route::post('three_step_admin/view_log', 'ThreeStepAuth\ThreeStepAdminController@post_view_log');
+	Route::get('three_step_admin/configure', 'ThreeStepAuth\ThreeStepAdminController@get_configure');
+	Route::post('three_step_admin/configure', 'ThreeStepAuth\ThreeStepAdminController@post_configure');
 	
 // AJAX routes	
 //	Route::get('ajax/get_user_info_admin', 'AjaxController@get_user_info_admin');

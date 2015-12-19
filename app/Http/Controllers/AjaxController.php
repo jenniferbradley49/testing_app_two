@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Models\LogEvent;
 use App\Role;
 use App\Role_user;
 use Redirect;
 use DB;
 use Auth;
 use App\classes\RoleHelper;
+use Storage;
 
 class AjaxController extends Controller
 {
@@ -120,4 +122,26 @@ class AjaxController extends Controller
 			return response()->json($data);
     	}
     }
+    
+
+    public function get_log_event(Request $request, LogEvent $log_event)
+    {
+    	if (!$this->bool_has_role)
+    	{
+    		return $this->roleHelper->call_redirect();
+    	}
+    	else
+    	{
+    		$validation_rules = [
+    		'log_event_id' => 'required|integer|min:1'
+    		];
+    		 
+    		$this->validate($request, $validation_rules);
+    Storage::put('get_log_event.txt', $request->log_event_id);
+    		$obj_log_event = $log_event->where('id', $request->log_event_id)
+    		->first();
+    		return response()->json($obj_log_event);
+    	}
+    }
+    
 }

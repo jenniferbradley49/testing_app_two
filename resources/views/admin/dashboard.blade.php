@@ -56,9 +56,32 @@
 <div class="col-sm-5"> 
    <a href='/log/edit_log_event'>Edit log event</a>
 </div>
-    
 <div class="col-sm-1"> </div>
 </div><!-- end row -->
+          
+<div class="row">
+<div class="col-sm-1"> <br><br><br></div>
+<div class="col-sm-5"> 
+   <a href="/three_step_admin/view_log">View three step logs</a>         
+    </div>
+<div class="col-sm-5"> 
+   <a href='/three_step_admin/configure'>Configure three step security</a>
+</div>
+<div class="col-sm-1"> </div>
+</div><!-- end row -->
+ 
+        
+<div class="row">
+<div class="col-sm-1"> <br><br><br></div>
+<div class="col-sm-5"> 
+   <a href="/three_step_admin/change_password">Change three step security password</a>         
+    </div>
+<div class="col-sm-5"> 
+   <a href='/three_step_admin/change_password_hint'>Change three step secuity password hint</a>
+</div>
+<div class="col-sm-1"> </div>
+</div><!-- end row -->
+ 
      
 <div class="row">
 <div class="col-sm-1"> <br><br><br></div>

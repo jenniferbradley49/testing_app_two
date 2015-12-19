@@ -32,10 +32,10 @@ class Log extends Model
     	);  	
     }
 
-    public function getDataArrayGetEdit($arr_request, $arr_log_event_id, $arr_logged_in_user)
+    public function getDataArrayGetEdit($arr_log_events, $arr_logged_in_user)
     {
     	return array(
-    			'arr_request' => $arr_request,
+ //   			'arr_request' => $arr_request,
     			'arr_log_events' => $arr_log_events,
     			'arr_logged_in_user' => $arr_logged_in_user
     	);
@@ -44,23 +44,7 @@ class Log extends Model
     
     
     
-    
-    public function get_all_events($client_id)
-    {
-    	$obj_log_events =  $this
-    		->where('client_id', $client_id)
-    		->orderBy('name');
-    	
-    	$arr_log_events = array();
-    	foreach ($obj_log_events as $key =>$row)
-    	{
-    		$arr_log_events[$key]['id'] = $row->id;
-    		$arr_log_events[$key]['name'] = $row->name;
-    	}
-    	return $arr_log_events;
-    }
-    
-    
+   
 }
 
 

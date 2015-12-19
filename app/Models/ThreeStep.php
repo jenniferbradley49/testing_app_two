@@ -61,10 +61,11 @@ class ThreeStep extends Model
 	}
 	
 	
-	public function getDataArrayGetStepOne($hint)
+	public function getDataArrayGetStepOne($hint, $arr_logged_in_user)
 	{
 		return array(
-			'hint' => $hint
+			'hint' => $hint,
+			'arr_logged_in_user' => $arr_logged_in_user
 		);
 	}
 

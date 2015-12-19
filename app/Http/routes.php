@@ -61,6 +61,10 @@
 	Route::post('three_step_admin/view_log', 'ThreeStepAuth\ThreeStepAdminController@post_view_log');
 	Route::get('three_step_admin/configure', 'ThreeStepAuth\ThreeStepAdminController@get_configure');
 	Route::post('three_step_admin/configure', 'ThreeStepAuth\ThreeStepAdminController@post_configure');
+	Route::get('three_step_admin/change_password', 'ThreeStepAuth\ThreeStepAdminController@get_change_password');
+	Route::post('three_step_admin/change_password', 'ThreeStepAuth\ThreeStepAdminController@post_change_password');
+	Route::get('three_step_admin/change_password_hint', 'ThreeStepAuth\ThreeStepAdminController@get_change_password_hint');
+	Route::post('three_step_admin/change_password_hint', 'ThreeStepAuth\ThreeStepAdminController@post_change_password_hint');
 	
 // AJAX routes	
 //	Route::get('ajax/get_user_info_admin', 'AjaxController@get_user_info_admin');
@@ -68,7 +72,8 @@
 //	Route::get('ajax/resort_users_admin', 'AjaxController@resort_users_admin');
 	Route::post('ajax/resort_users_admin', 'AjaxController@resort_users_admin');
 	Route::post('ajax/get_role_info_admin', 'AjaxController@get_role_info_admin');
-
+	Route::post('ajax/get_log_event', 'AjaxController@get_log_event');
+	
 	//Test provider organization routes
 	Route::get('test_provider_org/home', 'TestProviderOrganizationController@index');
 //	Route::get('admin/edit_user_admin', 'admin\AdminController@get_edit_user_admin');

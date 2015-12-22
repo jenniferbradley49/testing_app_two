@@ -12,20 +12,32 @@
 -->
 	{!! Form::open() !!}
     {!! csrf_field() !!}
+@if ($data['ts_bypass'])
 <div class="row">
 <div class="col-sm-2"><br><br><br><br><br><br> </div>
 <div class="col-sm-8"> 
+{{ $data['bypass_warning'] }}
+    </div>
+<div class="col-sm-2"> </div>
+</div><!-- end row -->
+@endif	
+	
 @if (count($errors) > 0)
+    
+
+<div class="row">
+<div class="col-sm-2"><br><br><br><br><br><br> </div>
+<div class="col-sm-8"> 
         <ul>
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
-    @endif
     </div>
 <div class="col-sm-2"> </div>
 </div><!-- end row -->
-    
+@endif
+
   
 <div class="row">
 <div class="col-sm-1"> <br><br><br></div>
@@ -84,7 +96,7 @@ you spoke today.  Security does not depend on the content of this message
 <div class="row">
 <div class="col-sm-3"> </div>
 <div class="col-sm-6"> 
-    {!! Form::submit('Register'); !!}          
+    {!! Form::submit('Continue to next step'); !!}          
     </div>  
 <div class="col-sm-3"> </div>
 </div><!-- end row -->

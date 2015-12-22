@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ThreeStep;
 use App\Models\ThreeStepUser;
 use App\Models\ThreeStepLog;
+use App\Models\ThreeStepAdmin;
 use App\Role;
 use Hash;
 use Session;
@@ -23,6 +24,7 @@ class ThreeStepController extends Controller
     		Request $request,
     		ThreeStep $threeStep,
 	   		ThreeStepLog $three_step_log,
+    		ThreeStepAdmin $threeStepAdmin,
     		ThreeStepUser $threeStepUser)
     {
     	$three_step_log->ip_address = $request->getClientIp();
@@ -33,14 +35,17 @@ class ThreeStepController extends Controller
         $obj_three_step_user = $threeStepUser
         	->where('role_id', $role_id)
         	->first();
-        
-		$data = $threeStep->getDataArrayGetStepOne($obj_three_step_user->hint, 'admin');
+        $ts_bypass = $threeStepAdmin->getTSBypass();
+		$bypass_warning = $threeStep->setBypassWarning($ts_bypass);
+		$data = $threeStep->getDataArrayGetStepOne(
+				$obj_three_step_user->hint, 'admin', $ts_bypass, $bypass_warning);
         return view('three_step/step_one')->with('data', $data);       
     }
 
     public function postStepOne(   		
     		Request $request, 
-    		ThreeStep $threeStep, 
+    		ThreeStep $threeStep,
+    		ThreeStepAdmin $threeStepAdmin, 
 	   		ThreeStepLog $three_step_log,
     		ThreeStepUser $tSUser)
  
@@ -81,13 +86,48 @@ class ThreeStepController extends Controller
 			{
 				// delete all old records with same role id
 //		 nah, bad idea		$threeStep->where('role_id', $role_id)->delete();
-				
+				$ts_bypass = $threeStepAdmin->getTSBypass();
 				$threeStep->three_step_id = Hash::make((string)time());
     			$threeStep->session_id = $request->session()->getId();
     			$threeStep->cloaked_role_id = Session::get('cloaked_role_id');
     			$threeStep->role_id = $role_id;
     			$threeStep->save();
-    			
+    			if ($ts_bypass) // replicate step two
+    			{
+    				$role_id = Session::get('role_id');
+    				$obj_role = $role
+    				->where('id', $role_id)
+    				->where('cloaked_id', $threeStep->cloaked_role_id)
+    				->first();
+    				if (!($obj_role == null))
+    				{
+    					$three_step_log->ip_address = $request->getClientIp();
+    					$three_step_log->step = 'three step step two success';
+    					$three_step_log->save();
+    				
+    					if ($obj_role->name == 'admin')
+    					{
+    						//  			echo "obj_role name = ".$obj_role->name."<br>";
+    						Session::put('cloaked_role_id_from_step_two', $threeStep->cloaked_role_id);
+    						Session::put('three_step_id_from_step_two', $threeStep->three_step_id);
+    				
+    						return redirect ('admin/home')
+    						->withInput();
+    					}
+    				}
+    				else
+    				{
+    					$three_step_log->ip_address = $request->getClientIp();
+    					$three_step_log->step = 'three step step two failure - bad input';
+    					$three_step_log->save();
+    					// role not found in role table
+    					return view('three_step/step_two_fail');
+    				}
+    				
+    			}
+    			else // no three step bypass , send email
+    			{
+    				 
  //   			$password_reset_id = $password_reset->id;
  //   			$cloaked_role_id = Session::get('cloaked_role_id');
     			$three_step_url = $threeStep->prepareURL(
@@ -127,7 +167,8 @@ class ThreeStepController extends Controller
     			{
     				return view('three_step/step_one_success');
     			}
-*/			
+*/
+				} // end else, if no bypass
 			}
 //    	$data = $threeStep->getDataArray(
  //   			$arr_request['password']);
@@ -152,20 +193,10 @@ class ThreeStepController extends Controller
     	$this->validate($request, $validation_rules);
     	$arr_request = $threeStep->getRequestArrayStepTwo($request);
     	$role_id = Session::get('role_id');
-//    	\DB::listen(function($sql, $bindings, $time) {
- //   		var_dump($sql);
- //   		var_dump($bindings);
- //   		var_dump($time);
- //   	});
     	$obj_role = $role
     	->where('id', $role_id)
     	->where('cloaked_id', $arr_request['cloaked_role_id'])
     	->first();
-    //	dd($obj_role);
-//    echo "<pre>";
- //   var_dump($obj_role);
- //   echo "</pre><br>";
-//    echo "obj_role name = ".$obj_role->name."<br>";
     	if (!($obj_role == null))
     	{
     		$three_step_log->ip_address = $request->getClientIp();

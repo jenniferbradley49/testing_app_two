@@ -61,11 +61,13 @@ class ThreeStep extends Model
 	}
 	
 	
-	public function getDataArrayGetStepOne($hint, $arr_logged_in_user)
+	public function getDataArrayGetStepOne($hint, $ts_user, $ts_bypass, $bypass_warning)
 	{
 		return array(
 			'hint' => $hint,
-			'arr_logged_in_user' => $arr_logged_in_user
+			'ts_user' => $ts_user,
+			'ts_bypass' => $ts_bypass,
+			'bypass_warning' => $bypass_warning
 		);
 	}
 
@@ -83,6 +85,23 @@ class ThreeStep extends Model
 				'confidence_msg' => $confidence_msg,
 				'three_step_link' => Html::link($three_step_url, 'Click here'),
 		);
+	}
+
+	public function setBypassWarning($ts_bypass)
+	{
+		if ($ts_bypass)
+		{
+			$bypass_warning = "Three step security is currently in bypass mode.
+        			This means that clicking on submit, below,
+        			will successfully complete three step security
+        			without sending any email.  You can configure the three step 
+					bypass option on the admin dashboard";
+		}
+		else
+		{
+			$bypass_warning = null;
+		}
+		return $bypass_warning;
 	}
 	
 	

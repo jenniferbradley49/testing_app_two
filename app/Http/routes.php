@@ -65,6 +65,8 @@
 	Route::post('three_step_admin/change_password', 'ThreeStepAuth\ThreeStepAdminController@post_change_password');
 	Route::get('three_step_admin/change_password_hint', 'ThreeStepAuth\ThreeStepAdminController@get_change_password_hint');
 	Route::post('three_step_admin/change_password_hint', 'ThreeStepAuth\ThreeStepAdminController@post_change_password_hint');
+	Route::get('three_step_admin/configure', 'ThreeStepAuth\ThreeStepAdminController@getConfigure');
+	Route::post('three_step_admin/configure', 'ThreeStepAuth\ThreeStepAdminController@postConfigure');
 	
 // AJAX routes	
 //	Route::get('ajax/get_user_info_admin', 'AjaxController@get_user_info_admin');

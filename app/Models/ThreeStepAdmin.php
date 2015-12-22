@@ -7,7 +7,8 @@ use Carbon\Carbon;
 
 class ThreeStepAdmin extends Model
 {
-
+	protected $table = 'three_step_admin';
+	
 	public function getValidationRulesChangePassword()
 	{
 		return array(
@@ -21,16 +22,45 @@ class ThreeStepAdmin extends Model
 	public function getValidationRulesChangePasswordHint()
 	{
 		return array(
-				'hint' => 'required|max:250'
+				'new_hint' => 'required|max:250'
 		);
 	}
 	
 
+	public function getValidationRulesConfigure()
+	{
+		return array(
+				'ts_implement' => 'required|integer|between:0,1',
+				'ts_bypass' => 'Required|integer|min:0|max:1',
+				'permit_delay' => 'required|integer|between:0,120'
+		);
+	}
+	
+	
+	
 	public function getRequestArrayChangePassword($request)
 	{
 		return array(
 				'curr_password' => $request->curr_password,
 				'password' => $request->password
+		);
+	}
+	
+
+	public function getRequestArrayChangePasswordHint($request)
+	{
+		return array(
+				'new_hint' => $request->new_hint
+		);
+	}
+	
+
+	public function getRequestArrayConfigure($request)
+	{
+		return array(
+				'ts_implement' => $request->ts_implement,
+				'ts_bypass' => $request->ts_bypass,
+				'permit_delay' => $request->permit_delay
 		);
 	}
 	
@@ -78,6 +108,68 @@ class ThreeStepAdmin extends Model
 				'arr_logged_in_user' => $arr_logged_in_user
 		);
 	}
+
+	public function getDataArrayConfig($arrConfigInfo, $arrConfigDropDownOptions, $arr_logged_in_user)
+	{
+		return array(
+			'arrConfigInfo' => $arrConfigInfo,
+			'arrConfigDropDownOptions' => $arrConfigDropDownOptions,
+			'arr_logged_in_user' => $arr_logged_in_user
+		);
+	}
 	
+	
+	public function getConfigDropDownOptions()
+	{
+		$arrTSImplementOpts = array(0 => 'no, do NOT implement / enforce three step security', 
+				1 => 'Yes, do implement / enforce three step security'
+			);
+		$arrTSBypassOpts = array(0 => 'no, do NOT bypass three step security',
+				1 => 'Yes, do bypass three step security'
+			);
+		$arrPermitDelayOpts = array(5 => 5,
+				10 => 10,				
+				15 => 15,
+				30 => 30,	
+				45 => 45,
+				60 => 60,
+				120 => 120,
+				0 => 'never' 
+		);
+		
+		return array('arrTSImplementOpts' => $arrTSImplementOpts,
+				'arrTSBypassOpts' => $arrTSBypassOpts,
+				'arrPermitDelayOpts' => $arrPermitDelayOpts	
+			);
+	}
+	
+	
+	public function getConfigInfo($user)
+	{
+		$objResults = $this->where('ts_user', 'admin')->first();
+		$arrConfigInfo = array();
+		$arrConfigInfo['ts_implement'] = $objResults->ts_implement;
+		$arrConfigInfo['ts_bypass'] = $objResults->ts_bypass;
+		$arrConfigInfo['permit_delay'] = $objResults->permit_delay;
+		return $arrConfigInfo;
+	}
+
+	
+	public function getTSImplement()
+	{
+		$objResults = $this->where('ts_user', 'admin')->first();
+		return $objResults->ts_implement;
+	}
+
+	
+	public function getTSBypass()
+	{
+		$objResults = $this->where('ts_user', 'admin')->first();
+		return $objResults->ts_bypass;
+	}
 	
 }
+
+
+
+

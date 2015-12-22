@@ -56,13 +56,18 @@ class ThreeStepAdminController extends Controller
     }
 
 
-    public function get_configure()
+    public function getConfigure(ThreeStepAdmin $threeStepAdmin)
     {
     	// turn of / off three step security
     	// number of minutes allowed without activity
-    	// disable dummy user - created to enable set up
-    	$data = array('arr_logged_in_user' => $this->arr_logged_in_user);
-    	return view('three_step_admin/change_password')->with('data', $data);
+    	// disable bypass of three step system - created to enable set up
+    	// set/edit encryption seed
+    	$arrConfigInfo = $threeStepAdmin->getConfigInfo('admin');
+    	$data = $threeStepAdmin->getDataArrayConfig(
+					$arrConfigInfo,
+    				$threeStepAdmin->getConfigDropDownOptions(),
+					$this->arr_logged_in_user);
+    	return view('three_step_admin/configure')->with('data', $data);
     }
     
     
@@ -101,32 +106,112 @@ class ThreeStepAdminController extends Controller
     		ThreeStepUser $three_step_user, ThreeStepAdmin $three_step_admin)
     {
 
-    	echo "1"; 
     	$validation_rules = $three_step_admin->getValidationRulesChangePassword();
     	$this->validate($request, $validation_rules);
-    	echo "2";
     	 
     	$arr_request = $three_step_admin->getRequestArrayChangePassword($request);
-    	$three_step_user = $three_step_user->find(Auth::id());
-    	if (! Hash::check($three_step_user->password, $arr_request['curr_password']))
+    	$three_step_user = $three_step_user
+    		->where('user_id', Auth::id())
+    		->first();
+    	if (! $three_step_user == null)
     	{
-    		echo "4";
-    		$data = $three_step_admin->getDataArrayChangePassword(
-    			'The current password does not match our records',
+	    	if (! Hash::check($arr_request['curr_password'], $three_step_user->password))
+	    	{
+	    		$data = $three_step_admin->getDataArrayChangePassword(
+ 		   			'The current password does not match our records',
+    				$this->arr_logged_in_user);
+    			return view('three_step_admin/change_password')
+    				->with('data', $data);
+    		}
+    		else 
+    		{
+    			$three_step_user->password = Hash::make($arr_request['password']);
+    			$three_step_user->save();
+    			$data = $three_step_admin->getDataArrayChangePassword(
+    				null,
+    				$this->arr_logged_in_user);
+    			return view('three_step_admin/change_password_results')->with('data', $data);
+    		} // end else, if ! Hash::check
+    	}
+    	else // if no three step user
+    	{
+	    	$data = $three_step_admin->getDataArrayChangePassword(
+ 		   		'No three step user found.',
     			$this->arr_logged_in_user);
     		return view('three_step_admin/change_password')
-    		->with('data', $data);
+    			->with('data', $data);
     	}
-//    	$obj_three_step_log = $three_step_log->all();
-    	echo "3"; 
-    	$data = $three_step_admin->getDataArrayChangePassword(
-    			null,
-    			$this->arr_logged_in_user);
-    	return view('three_step_admin/change_password_results')->with('data', $data);
-
     }
     
-      
+
+    public function post_change_password_hint(Request $request,
+    		ThreeStepUser $three_step_user, ThreeStepAdmin $three_step_admin)
+    {
+    
+    	$validation_rules = $three_step_admin->getValidationRulesChangePasswordHint();
+    	$this->validate($request, $validation_rules);
+    
+    	$arr_request = $three_step_admin->getRequestArrayChangePasswordHint($request);
+    	$three_step_user = $three_step_user
+    	->where('user_id', Auth::id())
+    	->first();
+    	if (! $three_step_user == null)
+    	{
+    		$three_step_user->hint = $arr_request['new_hint'];
+    		$three_step_user->save();
+    		$data = $three_step_admin->getDataArrayChangePassword(
+    			null,
+    			$this->arr_logged_in_user);
+    		return view('three_step_admin/change_password_hint_results')->with('data', $data);
+    	}
+    	else // if no three step user
+    	{
+    		$data = $three_step_admin->getDataArrayChangePassword(
+    				'No three step user found.',
+    				$this->arr_logged_in_user);
+    		return view('three_step_admin/change_password_hint')
+    		->with('data', $data);
+    	}
+    }
+    
+
+
+    public function postConfigure(Request $request,
+    		ThreeStepUser $three_step_user, ThreeStepAdmin $threeStepAdmin)
+    {
+//    	echo "<pre>";
+ //   	print_r($request);
+//    	echo "</pre>";
+    	 
+    	$validationRules = $threeStepAdmin->getValidationRulesConfigure();
+    	$this->validate($request, $validationRules);
+    
+    	$arrRequest = $threeStepAdmin->getRequestArrayConfigure($request);
+    	$threeStepAdmin = $threeStepAdmin
+    		->where('ts_user', 'admin')
+    		->first();
+    	if (! $threeStepAdmin == null)
+    	{
+    		$threeStepAdmin->ts_implement = $arrRequest['ts_implement'];
+    		$threeStepAdmin->ts_bypass = $arrRequest['ts_bypass'];
+    		$threeStepAdmin->permit_delay = $arrRequest['permit_delay'];
+    		$threeStepAdmin->save();
+    		$data = $threeStepAdmin->getDataArrayChangePassword(
+    				null,
+    				$this->arr_logged_in_user);
+    		return view('three_step_admin/configure_results')->with('data', $data);
+    	}
+    	else // if no three step user
+    	{
+    		$data = $three_step_admin->getDataArrayChangePassword(
+    				'No three step user found.',
+    				$this->arr_logged_in_user);
+    		return view('three_step_admin/change_password_hint')
+    		->with('data', $data);
+    	}
+    }
+    
+    
 }
 
 

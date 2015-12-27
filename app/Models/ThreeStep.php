@@ -13,16 +13,16 @@ class ThreeStep extends Model
 	protected $fillable = ['three_step_id', 'role_id', 'cloaked_role_id', 'session_id'];
 
 	
-	public function setRole($role)
-	{
-		self::$role = $role;
-	}
+//	public function setRole($role)
+//	{
+//		self::$role = $role;
+//	}
 
 	
-	public function getRole()
-	{
-		return self::$role;
-	}
+//	public function getRole()
+//	{
+//		return self::$role;
+//	}
 	
 	
 	public function getValidationRules()
@@ -38,7 +38,7 @@ class ThreeStep extends Model
 	{
 		return array(
 				'three_step_id' => 'required|max:100',
-				'cloaked_role_id' => 'required|max:100',
+//				'cloaked_role_id' => 'required|max:100',
 		);
 	}
 	
@@ -56,7 +56,7 @@ class ThreeStep extends Model
 	{
 		return array(
 				'three_step_id' => $request->three_step_id,
-				'cloaked_role_id' => $request->cloaked_role_id,
+//				'cloaked_role_id' => $request->cloaked_role_id,
 		);
 	}
 	
@@ -71,19 +71,20 @@ class ThreeStep extends Model
 		);
 	}
 
-	public function getDataArrayMiddleware()
-	{
-		return array(
-				'role' => $this->role
-		);
-	}
+//	public function getDataArrayMiddleware()
+//	{
+//		return array(
+//				'role' => $this->role
+//		);
+//	}
 	
 
-	public function getDataArrayEmail($confidence_msg, $three_step_url)
+	public function getDataArrayEmail($confidence_msg, $three_step_url, $ts_test)
 	{
 		return array(
 				'confidence_msg' => $confidence_msg,
 				'three_step_link' => Html::link($three_step_url, 'Click here'),
+				"ts_test" => $ts_test
 		);
 	}
 
@@ -105,13 +106,14 @@ class ThreeStep extends Model
 	}
 	
 	
-	public function prepareURL($three_step_id, $cloaked_role_id)
+//	public function prepareURL($three_step_id, $cloaked_role_id)
+	public function prepareURL($three_step_id)
 	{
 		$product_url = url('three_step/step_two');
 		$product_url .= '?three_step_id=';
 		$product_url .= $three_step_id;
-		$product_url .= '&cloaked_role_id=';
-		$product_url .= $cloaked_role_id;
+//		$product_url .= '&cloaked_role_id=';
+//		$product_url .= $cloaked_role_id;
 		return $product_url;
 	}
 	
@@ -151,7 +153,18 @@ echo "in three step model, line 101 reached<br>";
 		return true;
 	}
 	
-	
+	public function bool_three_step_approved_for_session($request, $session_id)
+	{
+		$threeStepApproved = $request->session()->get('bool_three_step_approved');
+		if ($threeStepApproved == null)
+		{
+			return 0;
+		}
+		else 
+		{
+			return ($threeStepApproved == $session_id);
+		}
+	} 
 }
 
 

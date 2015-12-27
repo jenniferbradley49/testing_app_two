@@ -75,14 +75,27 @@ class ThreeStepAdminController extends Controller
     		ThreeStepUser $three_step_user,
     		ThreeStepAdmin $three_step_admin)
     {
-    	$role_id = Session::get('role_id');
         $three_step_user = $three_step_user
-        	->where('role_id', $role_id)
+        	->where('role_id', 1)
         	->first();
-		$data = $three_step_admin->getDataArrayChangePasswordHint(
+        $data = $three_step_admin->getDataArrayChangePasswordHint(
 					$three_step_user->hint,
 					$this->arr_logged_in_user);
         return view('three_step_admin/change_password_hint')->with('data', $data);
+    }
+    
+    
+    public function getEditEmail(
+    		ThreeStepUser $three_step_user,
+    		ThreeStepAdmin $three_step_admin)
+    {
+        $three_step_user = $three_step_user
+        	->where('role_id', 1)
+        	->first();
+        $data = $three_step_admin->getDataArrayEditEmail(
+					$three_step_user->email,
+					$this->arr_logged_in_user);
+        return view('three_step_admin/edit_email')->with('data', $data);
     }
     
     
@@ -111,7 +124,8 @@ class ThreeStepAdminController extends Controller
     	 
     	$arr_request = $three_step_admin->getRequestArrayChangePassword($request);
     	$three_step_user = $three_step_user
-    		->where('user_id', Auth::id())
+//    		->where('user_id', Auth::id())
+    	->where('role_id', 1)
     		->first();
     	if (! $three_step_user == null)
     	{
@@ -153,7 +167,8 @@ class ThreeStepAdminController extends Controller
     
     	$arr_request = $three_step_admin->getRequestArrayChangePasswordHint($request);
     	$three_step_user = $three_step_user
-    	->where('user_id', Auth::id())
+  //  	->where('user_id', Auth::id())
+    	->where('role_id', 1)
     	->first();
     	if (! $three_step_user == null)
     	{
@@ -175,6 +190,39 @@ class ThreeStepAdminController extends Controller
     }
     
 
+    public function postEditEmail(Request $request,
+    		ThreeStepUser $three_step_user, ThreeStepAdmin $three_step_admin)
+    {
+    
+    	$validation_rules = $three_step_admin->getValidationRulesEditEmail();
+    	$this->validate($request, $validation_rules);
+    
+    	$arr_request = $three_step_admin->getRequestArrayEditEmail($request);
+    	$three_step_user = $three_step_user
+    	//  	->where('user_id', Auth::id())
+    	->where('role_id', 1)
+    	->first();
+    	if (! $three_step_user == null)
+    	{
+    		$three_step_user->email = $arr_request['email'];
+    		$three_step_user->save();
+    		$data = $three_step_admin->getDataArrayEditEmail(
+    				$arr_request['email'],
+    				$this->arr_logged_in_user);
+    		return view('three_step_admin/edit_email_results')->with('data', $data);
+    	}
+    	else // if no three step user
+    	{
+    		$data = $three_step_admin->getDataArrayNoTSUser(
+    				$this->arr_logged_in_user);
+    		return view('three_step_admin/no_ts_user')
+    			->with('data', $data);
+    	}
+    }
+    
+    
+    
+    
 
     public function postConfigure(Request $request,
     		ThreeStepUser $three_step_user, ThreeStepAdmin $threeStepAdmin)
@@ -194,6 +242,7 @@ class ThreeStepAdminController extends Controller
     	{
     		$threeStepAdmin->ts_implement = $arrRequest['ts_implement'];
     		$threeStepAdmin->ts_bypass = $arrRequest['ts_bypass'];
+    		$threeStepAdmin->ts_test = $arrRequest['ts_test'];
     		$threeStepAdmin->permit_delay = $arrRequest['permit_delay'];
     		$threeStepAdmin->save();
     		$data = $threeStepAdmin->getDataArrayChangePassword(

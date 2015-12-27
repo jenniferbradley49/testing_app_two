@@ -6,6 +6,7 @@ use Closure;
 use App\Models\ThreeStep;
 use App\Models\ThreeStepLog;
 use App\Models\ThreeStepAdmin;
+use App\Models\ThreeStepApprovedTime;
 use App\Role;
 use Session;
 use Validator;
@@ -17,18 +18,21 @@ class ThreeStepMiddleware
 	var $three_step;
 	var $three_step_log;
 	var $threeStepAdmin;
-	var $role;
+	var $threeStepApprovedTime;
+//	var $role;
 
 	public function __construct(
 			ThreeStep $three_step,
-			Role $role,
+//			Role $role,
 			ThreeStepAdmin $threeStepAdmin,
+			ThreeStepApprovedTime $threeStepApprovedTime,
 			ThreeStepLog $three_step_log)
 	{
 		$this->three_step = $three_step;
 		$this->three_step_log = $three_step_log;
 		$this->threeStepAdmin = $threeStepAdmin;
-		$this->role = $role;
+		$this->threeStepApprovedTime = $threeStepApprovedTime;
+		//		$this->role = $role;
 	}
 	
 	
@@ -39,8 +43,7 @@ class ThreeStepMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-	// must change role var name - too close to this->role
-    public function handle($request, Closure $next, $specified_role)
+	public function handle($request, Closure $next)
     {
     	$ts_implement = $this->threeStepAdmin->getTSImplement();
     	if ($ts_implement)
@@ -49,47 +52,57 @@ class ThreeStepMiddleware
     		$this->three_step_log->step = 'three step middleware entry';
     		$this->three_step_log->save();
     		$bool_three_step_approved = $request->session()->get('bool_three_step_approved');
+Storage::put('bool_ts_approved.txt', $bool_three_step_approved);
+    		$session_id = $request->session()->getId();
     		if (!(isset($bool_three_step_approved)))
     		{
-    			$obj_role = $this->role->where('name', $specified_role)->first();
-    			Session::put('role_id', $obj_role->id);
-    			Session::put('cloaked_role_id', $obj_role->cloaked_id);
-    	    	$session_id = $request->session()->getId();
 // if no prior three step attempt
-				if (Session::get('cloaked_role_id_from_step_two') == null)
+				if (Session::get('three_step_id_from_step_two') == null)
 				{
+Storage::put('ts_middleware_step_through.txt', 'line 62');					
 					return redirect ('three_step/step_one');
 				}
 				else 
 				{
-  //  	\DB::listen(function($sql, $bindings, $time) {
-   // 		Storage::put('middleware_three.txt', $sql);
-  //  		Storage::put('middleware_four.txt', $bindings);
-  //  		Storage::put('middleware_five.txt', $time);
-//    		var_dump($bindings);
- //   		var_dump($time);
-//    	});
+Storage::put('ts_middleware_step_through.txt', 'line 67');					
 					$obj_three_step = $this->three_step
     					->where('three_step_id', Session::get('three_step_id_from_step_two'))
-    					->where('cloaked_role_id', Session::get('cloaked_role_id_from_step_two'))
+//    					->where('cloaked_role_id', Session::get('cloaked_role_id_from_step_two'))
     					->where('session_id', $session_id)
     					->first();
-					Session::forget('cloaked_role_id_from_step_two');
+//					Session::forget('cloaked_role_id_from_step_two');
 					Session::forget('three_step_id_from_step_two');
 					if ($obj_three_step == null)
     				{
+Storage::put('ts_middleware_step_through.txt', 'line 77');					
     					return redirect ('three_step/step_one');    			 
     				}
     				else 
     				{
-    					Session::put('bool_three_step_approved', $obj_three_step->id);
+Storage::put('ts_login.txt', 'yes');
+    					Session::put('bool_three_step_approved', 'yes');
+						$bool_three_step_approved = $request->session()->get('bool_three_step_approved');
+Storage::put('bool_ts_approved.txt', $bool_three_step_approved);
+						$this->threeStepApprovedTime->updateApprovedTime($request);
     					return $next($request);
     				}
 				} // end else - if prior three step attempt
     		}
-    		else 
+    		else // if three step approved already set
     		{
-    			return $next($request);
+    			$permit_delay = $this->threeStepAdmin->getPermitDelay();
+    			if ($this->threeStepApprovedTime->delayExceeded($permit_delay, $session_id)) 
+    			{
+Storage::put('delayExceeded.txt', 'yes');    				
+    				Session::forget('bool_three_step_approved');
+    				$data = array('bool_ts_delay_exceeded', 1);
+    				return redirect ('three_step/step_one')->with('data', $data);    				
+    			}
+    			else // if permissible delay not exceeded
+    			{
+					$this->threeStepApprovedTime->updateApprovedTime($request);
+       				return $next($request);
+    			}
     		}
     	} // end if ts_implement
     	else

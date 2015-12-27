@@ -190,6 +190,27 @@ Configure three step security options
 </div><!-- end row -->
   
       
+        
+<div class="row">
+<div class="col-sm-1"> <br><br><br></div>
+<div class="col-sm-3"> 
+   {!! Form::label('ts_test', 'Test three step security - 
+   The email will be sent, but if the email is not received, 
+   the results page after clicking submit will offer a link to bypass the email.'); !!}            
+    </div>
+<div class="col-sm-5">
+<select name="ts_test" id="ts_test">
+@foreach($data['arrConfigDropDownOptions']['arrTSTestOpts'] as $key => $option)
+<option value="{{ $key }}" 
+{{ (Input::old('ts_test', $data['arrConfigInfo']['ts_test']) == $key ? ' selected="selected"' : '') }}>{{ $option }}</option>
+@endforeach
+</select>
+</div>
+    <div class="col-sm-2"><span id="status"></span></span> </div>
+<div class="col-sm-1"> </div>
+</div><!-- end row -->
+  
+      
       
 <div class="row">
 <div class="col-sm-1"> <br><br><br></div>

@@ -28,7 +28,8 @@ class AdminController extends Controller
 			Role_user $role_user, RoleHelper $roleHelper)
 	{
 
-		$this->middleware('three_step:admin');
+//		$this->middleware('three_step:admin');
+		$this->middleware('three_step');
 		$this->middleware('auth');
 		if (Auth::check())
 		{

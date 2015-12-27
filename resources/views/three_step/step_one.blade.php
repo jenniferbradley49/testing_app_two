@@ -10,6 +10,21 @@
 
 <!-- ><form method="POST" action="/three_step/step_one">
 -->
+
+
+@if (isset($data['bool_ts_delay_exceeded']))
+<div class="row">
+<div class="col-sm-2"><br><br><br><br><br><br> </div>
+<div class="col-sm-8"> 
+The application protected by three step security has a permissible delay 
+without activity set.  You were directed to three step security because 
+that delay has been exceeded.
+    </div>
+<div class="col-sm-2"> </div>
+</div><!-- end row -->
+@endif	
+
+
 	{!! Form::open() !!}
     {!! csrf_field() !!}
 @if ($data['ts_bypass'])

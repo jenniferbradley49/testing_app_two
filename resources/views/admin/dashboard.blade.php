@@ -81,6 +81,17 @@
 </div>
 <div class="col-sm-1"> </div>
 </div><!-- end row -->
+        
+<div class="row">
+<div class="col-sm-1"> <br><br><br></div>
+<div class="col-sm-5"> 
+   <a href="/three_step_admin/edit_email">Edit three step security email</a>         
+    </div>
+<div class="col-sm-5"> 
+</div>
+<div class="col-sm-1"> </div>
+</div><!-- end row -->
+ 
  
      
 <div class="row">

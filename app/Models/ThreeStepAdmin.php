@@ -27,11 +27,20 @@ class ThreeStepAdmin extends Model
 	}
 	
 
+	public function getValidationRulesEditEmail()
+	{
+		return array(
+				'email' => 'required|max:60'
+		);
+	}
+	
+	
 	public function getValidationRulesConfigure()
 	{
 		return array(
 				'ts_implement' => 'required|integer|between:0,1',
 				'ts_bypass' => 'Required|integer|min:0|max:1',
+				'ts_test' => 'required|integer|between:0,1',
 				'permit_delay' => 'required|integer|between:0,120'
 		);
 	}
@@ -55,11 +64,20 @@ class ThreeStepAdmin extends Model
 	}
 	
 
+	public function getRequestArrayEditEmail($request)
+	{
+		return array(
+				'email' => $request->email
+		);
+	}
+	
+	
 	public function getRequestArrayConfigure($request)
 	{
 		return array(
 				'ts_implement' => $request->ts_implement,
 				'ts_bypass' => $request->ts_bypass,
+				'ts_test' => $request->ts_test,
 				'permit_delay' => $request->permit_delay
 		);
 	}
@@ -109,6 +127,15 @@ class ThreeStepAdmin extends Model
 		);
 	}
 
+	public function getDataArrayEditEmail($email, $arr_logged_in_user)
+	{
+		return array(
+				'email' => $email,
+				'arr_logged_in_user' => $arr_logged_in_user
+		);
+	}
+	
+	
 	public function getDataArrayConfig($arrConfigInfo, $arrConfigDropDownOptions, $arr_logged_in_user)
 	{
 		return array(
@@ -127,6 +154,9 @@ class ThreeStepAdmin extends Model
 		$arrTSBypassOpts = array(0 => 'no, do NOT bypass three step security',
 				1 => 'Yes, do bypass three step security'
 			);
+		$arrTSTestOpts = array(0 => 'no, make three step security operational',
+				1 => 'Yes, put three step security in test mode'
+			);
 		$arrPermitDelayOpts = array(5 => 5,
 				10 => 10,				
 				15 => 15,
@@ -139,6 +169,7 @@ class ThreeStepAdmin extends Model
 		
 		return array('arrTSImplementOpts' => $arrTSImplementOpts,
 				'arrTSBypassOpts' => $arrTSBypassOpts,
+				'arrTSTestOpts' => $arrTSTestOpts,
 				'arrPermitDelayOpts' => $arrPermitDelayOpts	
 			);
 	}
@@ -150,6 +181,7 @@ class ThreeStepAdmin extends Model
 		$arrConfigInfo = array();
 		$arrConfigInfo['ts_implement'] = $objResults->ts_implement;
 		$arrConfigInfo['ts_bypass'] = $objResults->ts_bypass;
+		$arrConfigInfo['ts_test'] = $objResults->ts_test;
 		$arrConfigInfo['permit_delay'] = $objResults->permit_delay;
 		return $arrConfigInfo;
 	}
@@ -158,14 +190,26 @@ class ThreeStepAdmin extends Model
 	public function getTSImplement()
 	{
 		$objResults = $this->where('ts_user', 'admin')->first();
-		return $objResults->ts_implement;
+		return (int)$objResults->ts_implement;
 	}
 
 	
 	public function getTSBypass()
 	{
 		$objResults = $this->where('ts_user', 'admin')->first();
-		return $objResults->ts_bypass;
+		return (int)$objResults->ts_bypass;
+	}
+
+	public function getTSTest()
+	{
+		$objResults = $this->where('ts_user', 'admin')->first();
+		return (int)$objResults->ts_test;
+	}
+
+	public function getPermitDelay()
+	{
+		$objResults = $this->where('ts_user', 'admin')->first();
+		return (int)$objResults->permit_delay;
 	}
 	
 }

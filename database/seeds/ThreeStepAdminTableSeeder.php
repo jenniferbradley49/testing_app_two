@@ -16,6 +16,7 @@ class ThreeStepAdminTableSeeder extends Seeder
     	ThreeStepAdmin::create(array(
     	'ts_implement'	=> 1,
     	'ts_bypass'		=> 1,
+    	'ts_test'		=> 1,
     	'permit_delay'	=> 5,
     	'ts_user'			=> 'admin'
     	));

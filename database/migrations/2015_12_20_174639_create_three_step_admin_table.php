@@ -18,8 +18,8 @@ class CreateThreeStepAdminTable extends Migration
     		$table->increments('id')->unsigned();
     		$table->boolean('ts_implement');
     		$table->boolean('ts_bypass');
+    		$table->boolean('ts_test');
     		$table->integer('permit_delay')->unsigned()->nullable();
-//			$table->string('encryption_seed');
     		$table->string('ts_user');
 			$table->unique('ts_user', 'three_step_user_unique');
     		$table->timestamps();

@@ -46,7 +46,7 @@ Three step security - edit email
     
  
 <div class="row">
-<div class="col-sm-1"> <br><br><br><br><br>?</div>
+<div class="col-sm-1"> <br><br><br><br></div>
 <div class="col-sm-3"> 
    {!! Form::label('email', 'Update email address to which three step verification is sent') !!}            
     </div>
